@@ -1,0 +1,56 @@
+\documentclass[12pt]{uebung}
+
+
+\dozent{Przemysław Uznański}
+\vorlesung{Algorithms for Big Data}
+\semester{Fall Semester 2019}
+%\tutoren{Tutoren name}
+ 
+\usepackage{amsmath}
+\usepackage{mathtools}
+ 
+ 
+%\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb,wasysym}
+%\usepackage{tikz}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+ 
+%\usepackage{multirow}
+
+\selectlanguage{USenglish}
+
+ \begin{document}
+
+ \startnummer{1}
+ 
+\kopf[0]{25/11/2019}{7}
+
+\newcommand{\bigo}{\mathcal{O}}
+\renewcommand{\aufgname}{Exercise}
+
+
+\begin{aufg}
+Minimize the value of $\sum_{i} \frac{\alpha^2_i}{p_i}$ conditioned on $ \sum_i p_1 = 1$ and $\forall_i p_i\ge0$. Find values of $p_i$ that realize this minimum.
+\end{aufg}
+
+\begin{aufg}[2 pts]
+Show existence of $\varepsilon$-net of $S_{n-1}$ with size $c = \left(\bigo(1/\varepsilon)\right)^{n}$. You can either:
+\begin{itemize}
+\item analyze greedy algorithm, and show that it induces packing of $c$ disjoint balls of radius $\varepsilon/2$ in ball of radius $1+\varepsilon/2$, or
+\item show a clever geometric construction.
+\end{itemize}
+\end{aufg}
+
+\begin{aufg}[1+2+1]
+Show following identities:
+\begin{itemize}
+\item $\|A\|_F = \sqrt{\textrm{trace}(A \cdot A^T)}$
+\item Sub-multiplicativity: for square matrices there is $\|A B\|_F \le \|A\|_F \|B\|_F$  [use Cauchy-Schwartz]
+\item For orthonormal $U$, there is $\|UA\|_F = \|A\|_F$.
+\end{itemize}
+\end{aufg}
+
+
+\end{document}

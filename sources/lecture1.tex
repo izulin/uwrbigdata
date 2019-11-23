@@ -1,0 +1,364 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+%\spacing{1.06}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {University of Wrocław:\hspace{0.12cm}Algorithms for
+          Big Data (Fall'19)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+\newcommand{\Ppb}{\mathbf{Pr}}
+\newcommand{\Es}{\mathbf{E}}
+\newcommand{\bigo}{\mathcal{O}}
+\newcommand{\Var}{\mathbf{Var}}
+\newcommand{\sF}{\mathcal{F}}
+\newcommand{\Nat}{\mathbf{N}}
+\newcommand{\Real}{\mathbf{R}}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Scribes:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{remark}[theorem]{Remark}
+
+
+\begin{document}
+
+\lecture{1: Approximate Counting, Distinct Elements}{ 07/10/2019}{Lecturer: \emph{Przemysław Uznański }}{\emph{Mikołaj Słupiński}}
+
+
+\section{Introduction}
+\subsection{Topics during the course}
+\begin{itemize}
+    \item Streaming (counting, heavy hitters, norm estimation, sampling)
+ ($\sim4$ Lectures)
+    \item Dimensionality reduction and sparse linear algebra (eg. JL, approx matrix mul, compressed sensing)
+ ($\sim4$ Lectures)
+    \item Applications (geometry algo, coresets, graph algorithms, ANN, sliding window) ($\sim4$ Lectures)
+\end{itemize}
+\subsection{Motivation}
+Linear time/space algorithms are not good enough with modern datasets and their volume. Typical problem we are dealing with in this course: here is a stream of data, process it in a small space to compute output X. Usually there is a lower-bound preventing us to do it in a very small space \emph{exactly}. Hence we need to relax our problem to achieve very efficient (in space and time) algorithms.
+Examples:
+\begin{itemize}
+    \item Think of any recommendation system, where each user has assigned highly dimensional vector of preferences. We want to test similarity/dissimilarity of user profiles.
+    \item Database with approximate index (Approx Membership Queries), to quickly eliminate queries for elements that are not in the DB, except for few false positives.
+    \item Lossy compression of audio or images selects heavy hitters in the frequency domain. How to find them without computing FFT explicitly?
+    \item Count distinct elements in a stream, or maintain statistics in a continuous stream of updates (router + number of unique IP).
+
+\end{itemize}
+\subsection{Techniques}
+\begin{itemize}
+    \item Probabilistic tools  - few probabilistic bounds are good enough 90\% of the time, sometimes we will need to go a little bit deeper (fancy distributions),
+    \item relaxing problem: $1\pm \varepsilon$ approximation and $1-\delta$ correctness guarantee,
+    \item linear algebra,
+    \item trace amounts of combinatorics and ``typical'' A\&DS - that's why it might be tricky for CS students.
+\end{itemize}
+\section{Approximate counting}
+The problem is to maintain a counter that supports following operations:
+\begin{align*}
+\text{reset(),  } &[n\leftarrow 0]\\
+\text{inc(),    } &[n\leftarrow n+1]\\
+\text{query(),  } &[\text{output n}]
+\end{align*}
+
+Simple lowerbound of $\log(n)$ bits for exact (information-theoretic lowerbound).
+
+\paragraph{Goal:} algorithm that queried outputs $n’$ such that $\Ppb( |n-n'| > \varepsilon n ) < \delta$.
+\subsection{Morris’ algorithm (Morris 1978)}
+\paragraph{Local state:} X [int], represents $n \sim 2^X$. The crucial part of algorithm is to design how we increase $X$.
+
+\paragraph{Inc: }$X \leftarrow X+1$ with some small probability ($\sim 2^{-X}$), with intuition being that the ppb of $n$ being exactly $2^{X+1}-1$ is $2^{-X}$.
+
+Let us analyze increment probability = $2^{-X}$. Let $X_n$ be random variable denoting state of algorithm after $n$ increases.
+\begin{theorem}
+\begin{align}
+    \Es[2^{X_0}] &= 2^{X_0} = 1 \\
+    \Es[2^{X_n}] &= n+1 \text{  by induction}
+\end{align}
+\end{theorem}
+\begin{proof}
+\begin{align*} \Es 2^{X_{n+1}} &=\sum_{j=0}^{\infty} \Ppb \left(X_{n}=j\right) \cdot \Es \left(2^{X_{n+1}} | X_{n}=j\right) \\ &=\sum_{j=0}^{\infty} \Ppb \left(X_{n}=j\right) \cdot\left(2^{j}\left(1-\frac{1}{2^{j}}\right)+\frac{1}{2^{j}} \cdot 2^{j+1}\right) \\ &=\sum_{j=0}^{\infty} \Ppb \left(X_{n}=j\right) 2^{j}+\sum_{j} \Ppb \left(X_{n}=j\right) \\ &=\Es 2^{X_{n}}+1 \\ &=(n+1)+1 \end{align*}
+\end{proof}
+
+Morris algorithm output: $Z = 2^{X_{n}}-1   \leftarrow$, which is an unbiased estimator of $n$ (that is $\Es[Z] = n$).
+
+\subsubsection{Analysis of variance to extract guarantees:}
+
+\begin{theorem}
+We show inductively that $\Es[2^{2X_n}] = 3/2 n^2 + 3/2 n + 1$.
+\end{theorem}
+\begin{proof}
+see exercise
+\end{proof}
+
+Since
+\begin{align*}
+    \Var[Z] &= \Var[2^{X_n}] \\
+    &= \Es[2^{2 X_n} ] - (\Es[2^{X_n}])^2 \\
+    &= \frac{3}{2} n^2 + 3/2 n + 1 - (n+1)^2 \\
+    &= \frac{1}{2} n^2 - \frac{1}{2}n,
+\end{align*}
+by Chebyshev’s inequality $\Ppb( |Z-n| > \varepsilon n) \leq 1/(2 \varepsilon^2)$.
+
+This only gives failure probability $\delta < \frac{1}{2}$ for $\varepsilon > 1$, which is not very informative: (large) constant approximation with constant probability. But that was to be expected: our algorithm only outputs powers of two, so it cannot do much better job.
+\subsection{Morris+}
+Repeat $k$ times independently, take average of estimations.
+Since variance is additive: $\Var(Z') = \frac{1}{k^2}  (\Var(Z_1) + \Var(Z_2) + \dots + \Var(Z_k)) = 1/k  \Var(Z)$ so number of iterations necessary becomes: $k = \bigo(\frac{1}{\varepsilon^2 \delta})$
+(ok for 9/10 ppb of correctness, bad for whp correctness).
+
+\subsection{Morris++}
+Run $t$ copies of Morris+ algorithm, each with $\delta = \frac{1}{3}$ and take median of estimations as a final estimation. Each estimation is ok with probability $\geq \frac{2}{3}$, so for the median to fail at least $\frac{1}{6}$ fraction of estimations need to fail (all too large or all too small)
+Chernoff bound gives us:
+\begin{equation}
+\Ppb \left(\sum_{i=1}^{t} Y_{i} \leq \frac{t}{2}\right) \leq \Ppb \left(\left|\sum_{i=1}^{t} Y_{i}-\Es \sum_{i=1}^{t} Y_{i}\right| \geq \frac{t}{6}\right) \leq 2 e^{-t / 3}<\delta
+\end{equation}
+for $t = \Theta(\lg (1 / \delta))$.
+Final \textbf{bit} complexity $\bigo(\log \log (n/(\varepsilon \delta)) \frac{1}{\varepsilon^2} \log(\frac{1}{\delta}))$.
+
+\paragraph{Lowerbound:} $\Omega(\log \log_{1+\varepsilon} n) = \Omega(\log(1/\varepsilon) + \log \log n)$ (for $\delta=0$, its trickier to prove lowerbound involving $\delta$)
+
+
+\section{Distinct elements}
+
+\paragraph{Input:} Stream of values $i_1, i_2, …, i_m$ from $[n]$
+query() $\leftarrow$ number of distinct elements
+
+\paragraph{Trivial solution:} remember the stream, bitvector
+\subsection{Flajolet Martin 1985 (FM)}
+Pick a hash function $h: [n] \rightarrow [0,1]$     (for a moment let us assume ideal real numbers, and perfectly random hash function).
+
+\begin{enumerate}
+\item initially $Z=1$
+\item input $X$: $Z = \min(Z, h(X))$
+\item estimator: $Y = 1/Z - 1$
+\end{enumerate}
+
+\begin{observation}
+Repeats do not affect Z.
+\end{observation}
+
+If $t$ is the number of distinct elements, then $Z = \min(r_1, r_2, \dots, r_t)$ where $r_i$ are all independent and from $[0,1]$.
+
+\begin{lemma}
+\begin{equation}
+    \Es[Z] = \frac{1}{t+1}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Pick fresh $A$ at random from $[0,1]$. By symmetry, 
+$$\Es[Z] = \Ppb[A<Z] = \Ppb[A\text{ is minimal among }{A,r_1,\dots,r_t}] = \frac{1}{(t+1)}.$$
+\end{proof}
+\begin{lemma}
+\begin{equation}
+\Es[Z^2] \leq \frac{2}{(t+1)(t+2)}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Pick fresh $A, B$ at random from $[0, 1]$. By symmetry, $\Es[Z^2] = \Ppb[A<Z \wedge B<Z] = \frac{2}{(t+1)(t+2)}$ 
+\end{proof}
+\begin{proof}[Alternative proof]
+\begin{align*}
+\Es\left[Z^{2}\right] &=\int_{0}^{\infty} \Ppb\left(Z^{2}>\lambda\right) d \lambda \\
+&=\int_{0}^{\infty} \Ppb(Z>\sqrt{\lambda}) d \lambda \\
+&=\int_{0}^{1}(1-\sqrt{\lambda})^{t} d \lambda \\
+&=2 \int_{0}^{1} u^{t}(1-u) d u \quad[u=1-\sqrt{\lambda}] \quad=\frac{2}{(t+1)(t+2)} \end{align*}
+\end{proof}
+\begin{equation}
+\Var[Z]=\frac{2}{(t+1)(t+2)}-\frac{1}{(t+1)^{2}}=\frac{t}{(t+1)^{2}(t+2)}<(\Es[Z])^{2}
+\end{equation}
+
+\begin{remark}
+Applying Chebyshev's inequality $\rightarrow$ results in a guarantee of a (large) constant approximation with lets say $\frac{9}{10}$ probability.
+\end{remark}
+
+\paragraph{Issue:} $\Es[\frac{1}{Z}] \neq \frac{1}{\Es[Z]}$, but concentrating $Z$ with $1+\varepsilon$ multiplicative error will give $1+\varepsilon$ multiplicative error for $\frac{1}{Z}$.
+
+\subsection{FM+}
+To reach better approximation guarantee, we need to concentrate our output around expected value.
+\paragraph{Approach 1} copy approach from Morris’ algorithm - ``repeat k times and take average''
+to improve variance, set $k = \bigo(\frac{1}{\varepsilon^2})$ for $\frac{9}{10}$ probability of $1+ \varepsilon$ approximation.
+
+\paragraph{Approach 2} replace ``take minimum'' with ``take k-th smallest value''
+(to be analyzed $\rightarrow$ exercise).
+
+\subsection{FM++}
+To improve probability of success, repeat FM+ algorithm $t = \bigo(\log \delta^{-1})$ times, and take median of answers. This boosts probability of success to $1-\delta$.
+
+Total memory complexity is
+
+$\bigo(\log n  \frac{1}{\varepsilon^2} \log \delta^{-1})$ of \textbf{words} (each word is $\log n$ bits).
+
+\subsection{Issues}
+
+\paragraph{Recall} ``for a moment let us assume ideal real numbers''.
+
+We only care about relative order of hashes, and use actual value as an estimator. Using hash-functions of form $h: [n] \rightarrow \{\frac{0}{M}, \frac{1}{M}, \dots, \frac{M-1}{M}, \frac{M}{M}\}$ for some $M = n^3$, as it only introduces small relative error (whp each hash is $\geq \frac{1}{n}$ thus relative error introduced is at most $(1+\frac{1}{n})$, and wlog $\varepsilon>\frac{1}{n}$), and whp there are no collisions of hashes.
+
+\paragraph{Recall} ``and perfectly random hash function''.
+
+Randomness vs. pseudorandomness $\rightarrow$ c.f. exercises
+
+\section{Further reading}
+\begin{itemize}
+    \item hyperloglog algorithm, which very efficient in theory and practice, but has extremely nontrivial analysis (cf. description on Wikipedia)
+    \item\ [Błasiok 2018] - optimal $\Theta(\log{n} + \frac{\log{\delta^{-1}}}{\varepsilon^2})$ bits.
+
+\end{itemize}
+\appendix
+\section{Probability recap}
+\begin{definition}
+\begin{enumerate}
+    \item The empty set is an event, $\varnothing \in \sF$
+    \item Given a countable set of events $A_1, A_2, \dots$, its union is aso an event, $\bigcup_{i\in\Nat}A_i \in \sF$
+    \item if $A$ is an event, then so is the complementary set $A^c$
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+\begin{enumerate}
+    \item $\Ppb(\emptyset)=0, \Ppb(\Omega)=1$
+    \item if $A_1, A_2, \dots$ are mutually excluding events, then $\Ppb\left(\cup_{i=1}^{\infty} A_{i}\right)=\sum_{i=1}^{\infty} \Ppb\left(A_{i}\right)$
+\end{enumerate}
+A $\Ppb: \mathcal{F} \mapsto[0,1]$ satysfying these is called a probability.
+
+The triple $(\Omega, \mathcal{F}, \Ppb)$ is called a probability space.
+\end{definition}
+
+\begin{definition}
+We define coditional probability as 
+\begin{equation*}
+    \Ppb(A | B)=\frac{\Ppb(A \cap B)}{\Ppb(B)}
+\end{equation*}
+\end{definition}
+\begin{theorem}
+Let $B_{1}, \dots, B_{n}$ be a partition of $\Omega$, then
+\begin{equation}
+\Ppb(A)=\sum_{i=1}^{n} \Ppb\left(A | B_{i}\right) \Ppb\left(B_{i}\right)
+\end{equation}
+\end{theorem}
+\begin{definition}
+Events A and B are called independent if
+\begin{equation}
+\Ppb(A \cap B)=\Ppb(A) \Ppb(B).
+\end{equation}
+When$ 0 < \Ppb(B) < 1$, this is the same as
+\begin{equation}
+\Ppb(A | B)=\Ppb(A)=\Ppb\left(A | B^{c}\right)
+\end{equation}
+A family $\{A_i : i \in I\}$ of events is called independent if
+\begin{equation}
+\Ppb\left(\cap_{i \in J} A_{i}\right)=\prod_{i \in J} \Ppb\left(A_{i}\right)
+\end{equation}
+for any finite subset J of I.
+\end{definition}
+
+\begin{definition}
+A random variable is
+Informally: A quantity which is assigned by a randomexperiment.
+Formally: A mapping $X : \Omega \rightarrow \Real$.
+\end{definition}
+\begin{definition}
+The cumulated distribution function(cdf) is:
+\begin{equation}
+F(x)=\Ppb(X \leq x)
+\end{equation}
+If satisfies following properties:
+\begin{enumerate}
+    \item $\lim _{x \rightarrow-\infty} F(x)=0, \lim _{x \rightarrow+\infty} F(x)=1$
+    \item $x<y \Rightarrow F(x) \leq F(y)$
+    \item $F$ is right-continuous, ie. $F(x+h) \rightarrow F(x)$ as $h \downarrow 0$
+\end{enumerate}
+\end{definition}
+\begin{definition}
+The mean of a stochastic variable is
+$$
+\Es X=\sum_{i \in \mathbb{Z}} i \Ppb(X=i)
+$$
+in the discrete case, and
+$$
+\Es X=\int_{-\infty}^{+\infty} f(x) d x
+$$
+in the continuous case. In both cases we assume that the
+sum/integral exists absolutely.
+The variance of $X$ is
+$$
+\Var X=\Es(X-\Es x)^{2}=\Es X^{2}-(\Es X)^{2}
+$$
+\end{definition}
+
+\begin{definition}
+The conditional expectation is the mean in the conditional distribution
+\begin{equation}
+\Es(Y | X=x)=\sum_{y} y f_{Y | X}(y | x)
+\end{equation}
+It can be seen as a stochastic variable: Let $\psi(x)=\Es(Y | X=x)$,
+then $\psi(X)$ is the conditional expectation of $Y$ given $X$
+\begin{equation}
+\psi(X)=\Es(Y | X)
+\end{equation}
+We have
+\begin{equation}
+\Es(\Es(Y | X))=\Es Y
+\end{equation}
+\end{definition}
+
+\begin{definition}
+Conditional variance $\Var(Y|X)$ is the variance in the conditional distribution.
+\begin{equation}
+\Var(Y | X=x)=\sum_{y}(y-\psi(x))^{2} f_{Y | X}(y | x)
+\end{equation}
+
+This can also be written as
+$$
+\Var(Y | X)=\Es\left(Y^{2} | X\right)-(\Es(Y | X))^{2}
+$$
+and can be manipulated into
+$$
+\Var=\Es \Var(Y | X)+\Var \Es(Y | X)
+$$
+which partitions the variance of $Y$.
+\end{definition}
+
+\begin{theorem}[Markov's inequality]
+Let $X \geq 0$ be a random variable. Then for any $k \geq 1:$
+\begin{equation}
+\Ppb(X \geq k \cdot \Es[X]) \leq \frac{1}{k}
+\end{equation}
+\end{theorem}
+\begin{theorem}[Chebyshev's inequality]
+Let $X$ be a random variable. For any $k>0$:
+\begin{equation}
+\Ppb(|X-\Es[X]| \geq k \cdot \sqrt{\Var[X]}) \leq \frac{1}{k^{2}}
+\end{equation}
+\end{theorem}
+\begin{theorem}[]Hoeffding bound]
+Let $X_{1}, X_{2}, \ldots, X_{n} \in\{0,1\}$ be fully independent ran-dom variables. Let $X=\sum_{i} X_{i} .$ Then:
+\begin{equation}
+    \Ppb(|X-\Es[X]| \geq t) \leq 2 \exp \left(-\frac{t^{2}}{n}\right)
+\end{equation}
+\end{theorem}
+\end{document}
+
