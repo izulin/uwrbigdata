@@ -114,7 +114,7 @@
 \LoadClass{article}
 
 \RequirePackage{ifthen}
-\RequirePackage{ngerman}
+%\RequirePackage{ngerman}
 \RequirePackage[utf8]{inputenc}
 
 \pagestyle{empty}
