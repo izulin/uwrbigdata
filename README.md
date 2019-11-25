@@ -1,1 +1,2 @@
-# Algorithms for Big Data course at University of Wrocław
+# Algorithms for Big Data course
+University of Wrocław, Fall 2019
