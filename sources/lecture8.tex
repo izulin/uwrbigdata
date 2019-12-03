@@ -78,7 +78,7 @@ $$\|p_{d,\ell}\|_2^2 = \frac{1}{n}\sum_{i=0}^{n-1} |p_{d,\ell}(\omega^i)|^2$$
 
 Additionally
 \begin{align*}
-\frac{1}{2^{\ell}} \sum_{i=0}^{2^\ell-1} a_{-t - i\frac{n}{2^\ell}} \omega^{-d i \frac{n}{2^\ell}} &= \frac{1}{2^\ell} \sum_{i=0}^{2^\ell-1} p(\omega^{t+i\frac{n}{2^\ell}}) \omega^{-d i \frac{n}{2^\ell}} \\
+\frac{1}{2^\ell} \sum_{i=0}^{2^\ell-1} p(\omega^{t+i\frac{n}{2^\ell}}) \omega^{-d i \frac{n}{2^\ell}} 
 &= \frac{1}{2^\ell} \sum_{i=0}^{2^\ell-1} \sum_{j=0}^{n-1}  \hat{a}_j (\omega^{t+i\frac{n}{2^\ell}})^j \omega^{-d i \frac{n}{2^\ell}} \\
 &= \sum_{j=0}^{n-1}  \hat{a}_j \omega^{tj}\frac{1}{2^\ell} \sum_{i=0}^{2^\ell-1}  \omega^{i(j-d)\frac{n}{2^\ell}} \\
 &=\sum_{j=0}^{n-1} \hat{a}_j \omega^{tj} [j-d = 0 \bmod 2^\ell]\\
@@ -166,7 +166,7 @@ So picking $\varepsilon=1/2$ gives us by union bound $1/4$ ppb of success.
 
 Now the trick is to amplify the ppb by repeating each test $\bigo(\log \log n)$ times and do the majority vote. This amplifies the ppb to $1/(4 \log n)$, so by union bound the whole procedure is ok with $3/4$ ppb.
 
-\paragraph{TODO:} how to extract the value of $\hat{a}_u$.
+\paragraph{Not covered:} how to extract the value of $\hat{a}_u$.
 \end{document}
 
 
