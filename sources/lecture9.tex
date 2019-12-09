@@ -53,17 +53,17 @@ Assume we have fourier-sparse signal, where frequencies were sampled uniformly a
 
 We use following:
 \begin{theorem}[Aliasing Theorem]
-Given signal $a = (a_0,\ldots,a_{n-1})$, let $L$ divide $n$, and consider $b = (a_0,a_{L},a_{2L},\ldots,a_{n-L})$. Then $\hat{b}_i = \sum_{l = 0}^{L-1} \hat{a}_{i+l \cdot n/L}$.
+Given signal $a = (a_0,\ldots,a_{n-1})$, let $L$ divide $n$, and consider $b = (a_0,a_{L},a_{2L},\ldots,a_{n-L})$. Then $\hat{b}_i = \frac{1}{L}\sum_{l = 0}^{L-1} \hat{a}_{i+l \cdot n/L}$.
 \end{theorem}
 \begin{proof}
 \begin{align*}
  \sum_{l = 0}^{L-1} \hat{a}_{i+l \cdot n/L} &= \sum_{l = 0}^{L-1} \sum_{j=0}^{n} a_j \omega^{(i+l \cdot n/L)j}\\
  &= \sum_{j=0}^{n}  a_j \omega^{ij}  \sum_{l = 0}^{L-1} \omega^{l j \cdot n/L}\\
  &= \sum_{j=0}^{n}  a_j \omega^{ij}  \sum_{l = 0}^{L-1} (\omega^{j \cdot n/L})^l\\
- &= \sum_{j=0}^n a_j \omega^{ij} [j = 0 \bmod L]\\
- &= \sum_{j=0}^{n/L-1} a_{jL} \omega^{ijL} \\
- &= \sum_{j=0}^{n/L-1} b_j (\omega^{iL})^j \\
- &= \hat{b}_i
+ &= \sum_{j=0}^n a_j \omega^{ij} \cdot L \cdot [j = 0 \bmod L]\\
+ &= L \sum_{j=0}^{n/L-1} a_{jL} \omega^{ijL} \\
+ &= L \sum_{j=0}^{n/L-1} b_j (\omega^{iL})^j \\
+ &= L \hat{b}_i
 \end{align*}
 
 \end{proof}
@@ -79,10 +79,10 @@ We thus use a following algorithm:
 \end{itemize}
 
 Why does it work (and what is two-point algorithm)?
-First, $\hat{a}'_u = \sum_{l=0}^{L-1} \hat{a}_{u + l n/L}$. On the other hand, by using timeshift-frequencyshift theorem, $a''$ is a sampling from shifted-by-one $a$, so $\hat{a}''_u = \sum_{l=0}^{L-1} \hat{a}_{u+ln/L} \omega^{u+ln/L}$.
+First, $\hat{a}'_u = \frac1L\sum_{l=0}^{L-1} \hat{a}_{u + l n/L}$. On the other hand, by using timeshift-frequencyshift theorem, $a''$ is a sampling from shifted-by-one $a$, so $\hat{a}''_u = \frac1L\sum_{l=0}^{L-1} \hat{a}_{u+ln/L} \omega^{u+ln/L}$.
 
 
-Any non-zero element of $\hat{a}$ falls (with $2/3$ ppb) into distinct ``buckets'' (birthday paradox), so $\hat{a}'_u = \hat{a}_{u+ in/L}$ for some unknown $l$, and $\hat{a}''_u = \hat{a}_{u+in/L} \omega^{u+in/L}$. Thus
+Any non-zero element of $\hat{a}$ falls (with $2/3$ ppb) into distinct ``buckets'' (birthday paradox), so $\hat{a}'_u = \frac1L\hat{a}_{u+ in/L}$ for some unknown $l$, and $\hat{a}''_u = \frac1L\hat{a}_{u+in/L} \omega^{u+in/L}$. Thus
 $\hat{a}''_u / \hat{a}'_u = \omega^{u+in/L}$ which reveals $i$.
 
 Thus total runtime is $\bigo(k^2 \log k)$ for $2/3$ success probability.
