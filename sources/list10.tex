@@ -31,23 +31,21 @@
 \renewcommand{\aufgname}{Exercise}
 
 Below we assume that $k \ll m \ll n$ to avoid annoying border-cases.
+%TODO $\le (k+1)$-separable implies $k$-disjointness
+
 \begin{aufg}
-Show equivalence between $k$-disjoint set families and $k$-separable set families.
+Show that any $k$-disjoint set family separates $I_1,I_2$ such that $I_1 \not= I_2$ and $I_2$ can be arbitrarily large, while $|I_1| \le k$.
 \end{aufg}
 
 \begin{aufg}
-Show that any $k$-separable set family also separates $I_1,I_2$ such that $I_1 \not= I_2$ and $I_2$ can be arbitrarily large, while $|I_1| \le k$.
+Describe a decoding procedure for $k$-disjoint set family: given $\bigcup_{i \in I} F_i$, output $I$ if $|I| \le k$, and otherwise outputs that its not the case.
 \end{aufg}
 
 \begin{aufg}
-Describe a decoding procedure for $k$-separable set family: given $\bigcup_{i \in I} F_i$, output $I$ if $|I| \le k$, and otherwise outputs that its not the case.
-\end{aufg}
-
-\begin{aufg}
-Let $A$ be a $k$-separable matrix.  Show a decoding procedure, that given $Ax$ outputs $x$ if $x$ is $k$-sparse, and otherwise outputs that its not the case. Assume $x \ge 0$.
+Let $A$ be a $k$-disjoint matrix.  Show a decoding procedure, that given $Ax$ outputs $x$ if $x$ is $k$-sparse, and otherwise outputs that its not the case. Assume $x \ge 0$.
 \end{aufg}
 
 \begin{aufg}[2 pts]
-Assume $k$-separable family which has slow decoding. Show that it can be transformed into (suboptimal) $k$-separable family with $m' = \bigo(m \log n)$, and decoding time $\textrm{poly}(m,k,\log n)$.
+Assume $k$-disjoint family which has slow decoding. Show that it can be transformed into (suboptimal) $k$-separable family with $m' = \bigo(m \log n)$, and decoding time $\textrm{poly}(m,k,\log n)$. (You might want to expand the universe over which we define our family.)
 \end{aufg}
 \end{document}
