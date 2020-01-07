@@ -1,0 +1,45 @@
+\documentclass[12pt]{uebung}
+
+
+\dozent{Przemysław Uznański}
+\vorlesung{Algorithms for Big Data}
+\semester{Fall Semester 2019}
+%\tutoren{Tutoren name}
+ 
+\usepackage{amsmath}
+\usepackage{mathtools}
+ 
+ 
+%\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb,wasysym}
+%\usepackage{tikz}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+ 
+%\usepackage{multirow}
+
+\usepackage[english]{babel}
+
+ \begin{document}
+
+ \startnummer{1}
+ 
+\kopf[0]{07/01/2020}{11}
+
+\newcommand{\bigo}{\mathcal{O}}
+\renewcommand{\aufgname}{Exercise}
+\begin{aufg}
+Show $\Omega(n)$ lowerbound for number of edges algorithm has to ''touch'' to solve $(1\pm\varepsilon)$ multiplicative approximation for estimating number of connected components.
+\end{aufg}
+
+\begin{aufg}
+Let $G_1,G_2,\ldots,G_w$ be unweighted graphs such that: $e \in G_i$ iff $w(e) \le i$. Denote by $K_i$ the number of connected components of $G_i$.
+Show that weight of MST satisfies
+$$w(\text{MST}) = (n-1) + \sum_{i=1}^{w-1} (K_i - 1)$$
+\end{aufg}
+
+\begin{aufg}
+Why does rounding weights of the input graph to nearest full power of $(1\pm \varepsilon)$ does not provide any significant speed-up for cell-probe MST algorithm?
+\end{aufg}
+\end{document}

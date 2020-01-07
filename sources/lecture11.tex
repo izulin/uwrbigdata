@@ -78,7 +78,7 @@ Model: cell probe access to graph, given by adjacency lists. Problem: given grap
 
 \subsection{Counting connected components}
 Simpler problem: how to count connected components (approximately) in unweighted graph?
-Only hope for (fast) algorithm if additive $\pm \varepsilon n$ approximation. (Exercise)
+Only hope for (fast) algorithm is additive $\pm \varepsilon n$ approximation.
 
 \begin{observation}
 To estimate the number of connected components in a graph $H$ we first pick a random vertex $v$.
@@ -87,10 +87,10 @@ If $v$ is in a large connected component, that is an indication of a small numbe
 
 Denote $K$ as number of connected components. Let $\text{CC}(v)$ denote conected component of $v$.
 
-\begin{theorem}
+\begin{lemma}
 For $v$ let $\alpha_v = \frac{1}{|\text{CC}(v)|}$. Then $K = \sum_v \alpha_v$.
-\end{theorem}
-\begin{proof} exercise
+\end{lemma}
+\begin{proof} (Simple.)
 \end{proof}
 
 Algorithm 1:
@@ -120,10 +120,11 @@ Let $G_1,G_2,\ldots,G_w$ be unweighted graphs such that: $e \in G_i$ iff $w(e) \
 Weight of MST satisfies
 $$w(\text{MST}) = (n-1) + \sum_{i=1}^{w-1} (K_i - 1)$$
 \end{theorem}
-\begin{proof} exercise
+\begin{proof} (Simple.)
 \end{proof}
 
-If we run each MST estimator with error $\pm (\varepsilon/w)n$ (runtime $\bigo(\frac{d w^3 \log n}{\varepsilon^3})$), the total error of estimation is $\pm \varepsilon n$. Observation: since $w(\text{MST}) \ge n-1$, this is $1\pm \bigo(\varepsilon)$ multiplicative error.
+
+If we run each MST estimator with error $\pm (\varepsilon/w)n$ (runtime $\bigo(\frac{d w^4 \log n}{\varepsilon^3})$), the total error of estimation is $\pm \varepsilon n$. Observation: since $w(\text{MST}) \ge n-1$, this is $1\pm \bigo(\varepsilon)$ multiplicative error.
 
 
 \section{Graph sketching for MST}
