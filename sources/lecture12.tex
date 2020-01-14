@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage{latexsym}
+\usepackage{graphicx}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{epsfig}
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
@@ -147,21 +148,38 @@ $$d_H(u,v) \le t \cdot d_G(u,v)$$
 Any unweighted $G$ contains $t$-spanner with $\bigo(n^{1+2/(t-1)})$ edges, and it can be computed in one pass.
 \end{theorem}
 \begin{proof}
-Maintain subgraph. Process edges one-by-one. If an edge causes a cycle of length $\le t$, do not insert it.
+Maintain subgraph. Process edges one-by-one. If an edge causes a cycle of length $\le t+1$, do not insert it.
 \begin{enumerate}
-\item This constructs a $t$-spanner. (Nice easy exercise)
+\item This constructs a $t$-spanner. (Nice easy exercise) \\
+
+\begin{proof}
+	 Let's denote a spanner by $H$ as previously. \\
+	\begin{itemize}
+		\item (by contradiction) Assume that $H$ maintained in that way is not a \textit{t}-spanner. So, there exist a pair of vertices $u,v$ (counterexample) s.t. $d_H(u,v) > t d_G(u,v)$. Let's choose some shortest path between $u,v$ in G, $P_G$ and in $H$, $P_H$. The proof will have three stages. 
+		\begin{center}
+			\includegraphics[width=\linewidth]{lecture_12_proof_stages.png}
+		\end{center}
+		\item Now we argument that there also exists a counterexample s.t. $P_G$ and $P_H$ don't cross - only common vertices between them are $u, v$. This follows, because if there is a vertex $w$ s.t. $w \neq u, w \neq v, w \in P_G, w \in P_H$, then we can substitute one of $u, v$ (wlog, $u$) with $w$ in the counterexample. That's because $P_G, P_H$ are shortest paths between $u,v$ in $G,H$, so the equalities below are true (if they wouldn't be, there would exist some shorter path):
+		$$ d_H(u,w) + d_H(w,v) = d_H(u,v) > td_G(u,v) = td_G(u,w) + td_G(w,v)$$
+		so either $d_H(u,w) > td_G(u,w)$ or $d_H(w,v) > td_G(w,v)$ (in other case contradiction by summing sides of opposite ($\leq$) inequalities). By substituting $u \leftarrow w$ as many times as needed we have $P_G \cap P_H = \{u,v\} $.
+		\item We have that $P_G, P_H$ only have $u,v$ common and now we argument that there also exists a counterexample s.t. $|P_G|=1$. Similarly as previously, if there exists some $w$ on $P_G$ between $u,v$, we can substitute one of $u,v$ (wlog, $u$) with it in the counterexample. This is because from triangle inequality in $H$ we have (please note that there is no longer an equality in the left part because $w$ is not on $P_H$ and we need paths for $d_H(u,w), d_H(w, v)$ that contain some edges from outside of $P_H$, but the equality in the right part which we need is still true as $w \in P_G$):
+		$$ d_H(u,w) + d_H(w, v) \geq d_H(u,v) > td_G(u,v) = td_G(u,w) + td_G(w,v)$$
+		then by same argument as previously, either $d_H(u,w) > td_G(u,w)$ or $d_H(w,v) > td_G(w,v)$. By substituting $u \leftarrow w$ as many times as needed, we finally have that $u,v$ are neighbours in $G$ (please note that by such substitution, we can again have intersections between $P_G, P_H$ and we may need to move to the previous step, but $|P_G|$ constantly decreases).
+		\item As we now have a counterexample where $|P_G|=1$ and $|P_H|>t|P_G|=t$, we arrive at a contradiction: when we were processing the only edge on $P_G$, we should have added it to $H$ as it didn't cause a cycle of length $\leq t+1$ - it doesn't cause that now as $d_H(u,v) = |P_H| \geq t+1$ and in the time of processing of that edge it also didn't as $H$ at that time was a subgraph of the final $H$.
+	\end{itemize}
+\end{proof}
 \item The graph is sparse enough:
 \begin{itemize}
 \item Let $d = 2m/n$ be average degree.
 \item There is subgraph $H$ of $G$ with minimum degree $d' = d/2$: keep removing vertices with degree smaller than $d'$. We cannot end with no vertices, since then we removed less than $m$ edges.
-\item $H$ has every vertex of degree at least $m/n$, and no cycle of length $t$ or less.
-\item BFS tree of depth $(t-1)/2$ has no cycles in $H$
-\item $(m/n-1)^{(t-1)/2} \le |H| \le n$, which implies bound on $m$
+\item $H$ has every vertex of degree at least $m/n$, and no cycle of length $t+1$ or less.
+\item BFS tree of depth $t/2$ has no cycles in $H$
+\item $(m/n-1)^{t/2} \le |H| \le n$, which implies bound on $m$
 \end{itemize}
 \end{enumerate}
 \end{proof}
 
-For weighted graphs: partition edges into $\log W$ classes, $t$-spanner of size $\bigo(n^{1+2/(t-1)} \log W)$
+For weighted graphs: partition edges into $\log W$ classes, $t$-spanner of size $\bigo(n^{1+2/t} \log W)$
 
 \end{document}
 
