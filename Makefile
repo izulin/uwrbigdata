@@ -17,3 +17,6 @@ exercises/%.pdf: sources/%.pdf
 
 sources/%.pdf: sources/%.tex
 	cd sources; pdflatex $(notdir $<); pdflatex $(notdir $<)
+
+clean:
+	cd sources; rm *aux *log *synctex.gz
