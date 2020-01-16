@@ -1,0 +1,83 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+%\spacing{1.06}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {University of Wrocław:\hspace{0.12cm}Algorithms for
+          Big Data (Fall'19)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Scribe:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{property}[theorem]{Property}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\bigo}{\mathcal{O}}
+\setcounter{MaxMatrixCols}{20}
+
+\begin{document}
+
+\lecture{13: MPC}{ 20/01/2020}{Lecturer: \emph{Przemysław Uznański }}{-}
+
+\section{Massively Parallel Computing}
+Modern distributed computing model (captures map-reduce, hadoop, spark, etc.).
+
+\begin{itemize}
+\item input of size $n$
+\item $M$ machines, each of space $S$, $S = n^{1-\delta}$, $M \cdot S = \bigo(n)$.
+\item output (might be too large, e.g. size $n$ that does not fit on a single machine)
+\end{itemize}
+
+Computation:
+\begin{itemize}
+\item computation happens over $R$ rounds
+\item each machine: near linear computation per round, so total computation cost $\bigo(n^{1+o(1)} R)$
+\item each machine communicates $\sim S$ bits per round, so total communication cost $\bigo(n R)$
+\end{itemize}
+goal: minimize $R$
+
+\subsection{Sorting (Tera-Sort)}
+Intuition: if we partition input onto machines, so each machine receives contiguous fragment of size $S$, then we are done in a single round (each machine sorts and outputs its own part, output == concatenation of outputs).
+
+Idea: 
+\begin{itemize}
+\item each machine receives input
+\item each machine samples randomly from its input
+\item each sample is sent to single machine ($1$ round)
+\item 1 machine gathers all the samples, sorts locally, and sents back to everyone approximate histogram
+\item machines use approximate histogram to decide how to partition locally their input and sent it to proper receivers
+\item then everyone sorts their parts
+\end{itemize}
+
+Total sample size $k = \bigo(S)$, and whp histogram is with $\pm \varepsilon n$ error, where $\frac{\log n}{\varepsilon^2} \le k$. We are ok if error is $\bigo(S)$. This is satisfied when $S^{3/2} = \Omega(n \sqrt{\log n})$, or $S = \Omega(n^{2/3} (\log n)^{1/3})$ (thus whp we can sort in $\bigo(1)$ rounds).
+\end{document}
+
+
