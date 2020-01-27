@@ -1,0 +1,98 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+%\spacing{1.06}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {University of Wrocław:\hspace{0.12cm}Algorithms for
+          Big Data (Fall'19)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Scribe:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{property}[theorem]{Property}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\bigo}{\mathcal{O}}
+\setcounter{MaxMatrixCols}{20}
+
+\begin{document}
+
+\lecture{14: Caching}{ 27/01/2020}{Lecturer: \emph{Przemysław Uznański }}{-}
+
+\section{Cache-aware algorithms}
+DAM model:
+\begin{itemize}
+\item  CPU
+\item cache (with fast access) of size $M$, $M/B$ blocks of size $B$
+\item memory/disk (with slow access) of size $\infty$
+\end{itemize} 
+Cost is associated with number of memory accesses. Assume CPU cost is negligible, and actual cost comes from moving things to i from cache.
+
+Example1: scanning $N$ consecutive memory cells takes $N/B$ memory transfers.
+
+Example2:Accessing random $N$ memory cells takes $N$ memory transfers.
+
+Example3: Binary search: $\log(N/B)$ (not really any significant gain)
+
+\begin{enumerate}
+\item B-trees, with branching factor $\Theta(B)$. Tree depth is $\log_B N$.
+\item $B^\varepsilon$-trees: each node is a buffer of size $B$, with $B^\varepsilon$ pivots. Insert amortizes and costs $\frac{\log_B N}{\varepsilon B^{1-\varepsilon}}$, queries cost $\frac{\log_B N}{\varepsilon}$. Deletes by tombstones.
+\item Sorting $\bigo(\frac{N}{B} \log_{M/B} \frac{N}{B})$ by $M/B$-way mergesort.
+\end{enumerate}
+\section{Cache-oblivious algorithms}
+Desing of cache-aware algorithms requires fine-tuning to parameters of the model. In modern systems we have many levels of caching...
+
+The cache-oblivious model: do the algorithm that works well for (almost) any setting of parameters, as algorithm does not know $B$ or $M$.
+\begin{itemize}
+\item Automatic block transfers triggered by word access with \emph{offline optimal block replacement}.
+\item FIFO or LRU is $2$-competetive given cache of $2 \times$ size.
+\item In fact it is OK to show that ANY caching strategy kind-of works.
+\end{itemize}
+
+Adapts to multi-level hierarchy.
+
+
+Search trees: $\bigo(\log_B N)$. Static search tree - simulate B-tree on classic binary tree via memory placement. Take full binary tree on $N$ nodes, cut it in half (height), so top is $\sqrt{N}$ nodes (call it $T$) and bottom is $\sqrt{N}$ trees ($T_1,\ldots,T_{\sqrt{N}}$). Place in memory: place $T$, then $T_1, \ldots, T_{\sqrt{N}}$, call recursively (van Emde Boas layout).
+
+Analysis: cut in half until height piece size $\le B$. So its also $\ge \sqrt{B}$. Height of a piece is between $\log B$ and $\frac{1}{2} \log B$. Number of pieces along path to root is $\le \frac{\log N}{\frac{1}{2} \log B}$, and each piece is on at most $2$ blocks.
+
+COLA (Cache-Oblivious Lookahead Array):
+\begin{itemize}
+\item $\log N$ levels
+\item $i$-th level contains $2^i$ elements, either completely full or completely empty
+\item each level is sorted
+\end{itemize}
+
+Insert: $\frac{\log N}{B}$ amortized.
+Naive searches: bin-search in each level, so $\log^2 N$. Refine by adding lookahead pointers: each fourth element from level $i$ is preserved in level $i+1$, with pointer. Then searching incurs $\log N$ cost.
+\end{document}
+
+
