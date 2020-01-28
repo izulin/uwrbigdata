@@ -16,7 +16,7 @@ exercises/%.pdf: sources/%.pdf
 	cp $< $@
 
 sources/%.pdf: sources/%.tex
-	cd sources; pdflatex $(notdir $<); pdflatex $(notdir $<)
+	cd sources; pdflatex $(notdir $<); bibtex $($(notdir $<):tex=auf); pdflatex $(notdir $<); pdflatex $(notdir $<)
 
 clean:
 	cd sources; rm *aux *log *synctex.gz
