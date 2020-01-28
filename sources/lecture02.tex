@@ -5,6 +5,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -57,7 +59,7 @@ and $p$-th norm to be
 $$L_p = \left( \sum_{i=1}^d |x_i|^p\right)^{\frac{1}{p}}$$
 Examples: $F_0$ - number of non-zero elements (which is nontrivial in turnstile model, because $c_i$ can be less than 0), $F_1/L_1$ - Manhattan norm (trivial in semi-turnstile), $L_2$ - Euclidean norm.
 
-\subsection{AMS algorithm (Alon, Matias, Szegedy 1996) for $F_2$}
+\subsection{AMS algorithm for $F_2$ \cite{DBLP:conf/stoc/AlonMS96} }
 \subsubsection{Introduction}
 Let $A = (a_1, a_2, \dots, a_n)$. We need a linear operation which will tell us the second moment of $A$, i.e. $\sum_{i=1}^n a_i^2$. \\
 Consider a sequence of independent coefficients $$r_i = \begin{cases}1 \quad&\textrm{with ppb }1/2\\ -1\quad&\textrm{with ppb }1/2 \end{cases}$$ 
@@ -136,8 +138,14 @@ with prob. $1-\delta$, where $k = O \left( \frac{\log{\frac{1}{\delta}}}{\vareps
 \end{lemma}
 
 Informally: projection onto a "random" hyperplane (up to scaling) preserves distances with good accuracy and high probability. \\
-Remark: $r_{ij}$ from +1/-1 Bernoulli distribution like in AMS algorithm work too [c.f. Achlioptas 2003].
+Remark: $r_{ij}$ from +1/-1 Bernoulli distribution like in AMS algorithm work too. \cite{DBLP:journals/jcss/Achlioptas03}
 
 AMS analysis is much simpler and uses only variance, while JL is much more advanced. JL gives "fancier" convergence (no median trick) but essentially needs more independence for the random variables ($k$-independence).
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 \end{document}
+
+
+
 

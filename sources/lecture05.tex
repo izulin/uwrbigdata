@@ -5,6 +5,9 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
+
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -72,7 +75,7 @@ scaled rademacher $+1/-1   \cdot 1/sqrt(m)$ iid coefficients work
 
 JL is a dimensionality reduction in L2 norm. Problem: applying a single projection takes $\bigo(nm)$ time.
 
-\section{Fast JL [Ailon Chazelle 2009]}
+\section{Fast JL \cite{DBLP:journals/siamcomp/AilonC09}}
 
 Main idea is to structurize the matrix, so the time to apply matrix ~ $\bigo(n+m log m)$
 
@@ -147,7 +150,7 @@ Taking union bound over both $\delta/2$ failure probability finishes the proof.
 
 Using this approach, this dependency is roughly optimal (that is, we are losing one log vs. optimal JL). However, one trick to reduce $\eps$ to optimal at the cost of slower runtime is to apply $m' \times m$ ''naive'' JL at the end of the chain of matrices, for $m' = \bigo(\log (1/\delta) \eps^{-2})$. This adds $\bigo(m' \cdot m) = \bigo(\eps^{-4} \log^2 (1/\delta) \log (n/\delta))$ to the running time though.
 
-\section{Sparse JL (Dasgupta, Kumar, Sarlós 2010, Kane Nelson 2010)}
+\section{Sparse JL \cite{DBLP:conf/stoc/DasguptaKS10}}
 
 Motivation: if $x$ is sparse (that is, $\|x\|_0$ is small), we expect time proportional to $\|x\|_0$. 
 
@@ -193,6 +196,9 @@ $$\E[ (\sum_i \sigma_i x_i)^p ] \le \E[ (\sum_i g_i x_i)^p ] =  (p-1)!! \|x\|_2^
 Asymptotically, $((p-1)!!)^{1/p} \approx (2^{p/2} \cdot (p/2)!)^{1/p} \approx \sqrt{2} \cdot \left(\frac{(p/2)^{p/2}}{e^{p/2}} \right)^{1/p} = \sqrt{\frac{p}{e}}$, so the hidden constant in Khintchine inequality is $\bigo(\sqrt{p})$.
 
 \end{proof}
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 \end{document}
 
 
