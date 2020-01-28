@@ -5,7 +5,9 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
-\usepackage{url}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
+
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -68,7 +70,7 @@ For $p \in \{\frac{1}{2},1,2\}$ we know closed form formulas, e.g.:
   Except for $p=2$, those distributions are heavy tailed, that is $\E[|\mathcal{D}|] = \infty$ and $\E[\mathcal{D}^2] = \infty$ (this has to be, as by Central Limit Theorem distributions with finite moments cannot be stable, unless its normal distribution).
 \end{remark}
 
-\section{Sketches for $L_p$ norm [Indyk 2000]}
+\section{Sketches for $L_p$ norm \cite{DBLP:conf/focs/Indyk00}}
 
 Pick random coefficients $r_i \sim \mathcal{D}_p$ for  $i = 1 .. n$, where $\mathcal{D}_p$ is a $p$-stable distribution. Then
 $$Z = \sum_i x_i r_i$$ is a sketch of vector $\mathbf{x}$, since $Z \sim |\mathbf{x}|_p \mathcal{D}_p$. We will of course run many parallel instances of sketching process (as usual).
@@ -119,7 +121,7 @@ If $F^\prime$ is not too flat around $F^{-1}(\frac{1}{2})$ (i.e. median), then $
 Estimator: $\frac{\textrm{median}(|Z|)}{\textrm{median}(|D_p|)} = \frac{\textrm{median}(|Z_1|,\ldots,|Z_k|)}{\textrm{median}(|D_p|)}$
 
 
-\subsection{Geometric mean estimator [Li 2008]}
+\subsection{Geometric mean estimator \cite{DBLP:conf/soda/Li08}}
 Use geometric mean as an estimator. 
 
 Output: $(\Pi_{i=1}^k|Z_i|)^{1/k} / \alpha$, where
@@ -127,7 +129,7 @@ $\alpha = e^{\E(\ln |D_p| )}$, and $k = O(\log(\frac{1}{\delta}) / \varepsilon^2
 
 \subsection{Independence}
 To use $p$-stability we assumed full $n$-wise independence - this means in theory huge space in streaming applications, and there is no easy workaround.  We present two workarounds that are theoretic in nature and require very sophisticated machinery.
-\subsubsection{First workaround [Indyk 2000]}
+\subsubsection{First workaround \cite{DBLP:conf/focs/Indyk00}}
 Apply Nisan’s pRNG which is able to:
 \begin{itemize}
 \item Store its seed/local state in a $\textrm{polylog}(n)$ space
@@ -135,7 +137,7 @@ Apply Nisan’s pRNG which is able to:
 \item “Fool” small space (arbitrary) computations as if they were given perfect randomness
 \end{itemize}
 
-\subsubsection{Second workaround [Kane, Nelson and Woodruff 2008]}
+\subsubsection{Second workaround \cite{DBLP:conf/stoc/KaneNPW11}}
 Prove that $k$-wise independence is enough, for $$k = \mathcal{O}( \log \frac{1}{\varepsilon} \log\log\log \frac{1}{\varepsilon})$$
 
 \section{$L_p$ sketching for $p > 2$}
@@ -155,7 +157,7 @@ $$E[Y^2] = \frac{1}{n}\sum_{i}n^2 (f_{x_i})^{2p-2} = n \sum_{x} (f_x)^{2p-2} f_x
 \end{claim}
 \begin{proof}
 $$nF_{2p-1} = n \|f\|_{2p-1}^{2p-1} \leq n \|f\|_{p}^{2p-1} = \|f\|_1 \|f\|_p^{2p-1} \leq m^{1 - 1/p} \|f\|_p \|f\|_p^{2p-1} = m^{1 - 1/p} \|f\|_p^{2p} = m^{1 - 1/p} F_p^2$$
-For $\|f\|_1 \leq m^{1 - 1/p} \|f\|_p$ and $\|f\|_{2p-1} \le \|f\|_p$ see Wikipedia\footnote{\url{https://en.wikipedia.org/wiki/Lp_space#Relations_between_p-norms}}.
+For $\|f\|_1 \leq m^{1 - 1/p} \|f\|_p$ and $\|f\|_{2p-1} \le \|f\|_p$ see Wikipedia \footnote{\url{https://en.wikipedia.org/wiki/Lp_space}}.
 \end{proof}
 \subsection{1-pass Algorithm}
 How to pick random $i$ in a stream of unknown length?
@@ -171,10 +173,13 @@ $$E[(Y^\prime)^2] \leq p^2 E[Y^2] = p^2 m^{1-1/p} (F_p)^2$$
 And thus the number of parallel runs should be $\mathcal{O}\Big(\frac{p^2 m^{1 - \frac{1}{p}}}{\varepsilon^2}\Big)$
 
 \begin{fact}
-  There is a lowerbound for size of sketches for $L_p$, $p > 2$: $\Omega(m^{1-\frac{2}{p}}/\varepsilon^2)$ [see Bar-Yossef, Jayram, Kumar, and Sivakumar 2004]
+  There is a lowerbound for size of sketches for $L_p$, $p > 2$: $\Omega(m^{1-\frac{2}{p}}/\varepsilon^2)$ \cite{DBLP:journals/jcss/Bar-YossefJKS04}
 \end{fact}
 \begin{fact}
-  Best complexity of sketching is $\mathcal{O}(m^{1-\frac{2}{p}}/\varepsilon^2)$ -- achieved in turnstile model [Indyk and Woodruff 2005].
+  Best complexity of sketching is $\mathcal{O}(m^{1-\frac{2}{p}}/\varepsilon^2)$ -- achieved in turnstile model. \cite{DBLP:conf/stoc/IndykW05}
 \end{fact}
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 \end{document}
 

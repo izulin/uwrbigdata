@@ -5,6 +5,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -44,7 +46,7 @@
 \lecture{4: Point queries, heavy hitters}{ 28/10/2019}{Lecturer: \emph{Przemysław Uznański }}{\emph{Michał Jaworski}}
 
 \section{Finding frequent elements}
-\subsection{Majority elements (Boyer Moore 1981)}
+\subsection{Majority elements \cite{DBLP:conf/birthday/Moore91}}
 \begin{definition}
 An element of a multiset $X$, $|X| = n$ is called a \emph{majority element} if it occurs more than $\frac{n}{2}$ times.
 \end{definition}
@@ -95,7 +97,7 @@ Assume turnstile streaming model, we maintain vector $x$ under updates. Choose a
 \begin{observation}
 \textbf{Roughly}, if we can solve one of these problems, then we can also solve the other (they reduce to each other).
 \end{observation}
-\section{CountMin (Cormode, Muthukrishnan 2004)}
+\section{CountMin \cite{DBLP:conf/latin/CormodeM04}}
 \subsection{Point queries}
 Assume $\forall_i x_i \ge 0$. Let $h:[n]\to[t]$ be a 2-wise independent hashing function for $t=\frac{2}{\varepsilon}$. Maintain an array $Z[1..t]$ such that $$Z[j]=\sum_{i: h(i) = j} x_i$$
 \begin{itemize}
@@ -127,7 +129,7 @@ This method only works in the semi-turnstile model.
 \end{itemize}
 \subsubsection{Our case}
 We construct a binary search tree with $O(\log n)$ levels and $n$ nodes in the lowest level. Each node represents the sum of values from an interval of the form $[a2^b+1, (a+1)2^b]$. Each level is implemented as a separate CountMin structure. We perform queries recursively descending only into nodes where the output is at least $\varepsilon|x|_1$. Since there are only $\frac{1}{\varepsilon}$ such nodes at each level, we can apply the union bound $\delta' = \frac{\delta}{2\log n}$.
-\section{CountSketch (Charikar, Chen, Farach-Colton 2002)}
+\section{CountSketch \cite{DBLP:conf/icalp/CharikarCF02}}
 Let $h_1, ..., h_r: [n] \rightarrow [t]$ and $s_1, ..., s_r: [n] \rightarrow \{-1, 1\}$ be 2-wise independent hashing functions.
 \begin{itemize}
 \item $\text{Update}(i, \Delta)$: $\forall_{j \in [r]} Z[j][h_j(i)] \leftarrow Z[j][h_j(i)] + s_j(i)\cdot \Delta$ 
@@ -141,5 +143,9 @@ $$\Pr\left[ \big|x_i - Z[j][h_j(i)]\big| > \sqrt{\frac{3}{t}} |x|_2 \right] < \f
 For $t = O\left(\frac{1}{\varepsilon^2}\right)$ we get
 $$\Pr\left[ \big|x_i - Z[j][h_j(i)]\big| > \varepsilon|x|_2\right] < \frac{1}{3}$$
 so we get an $L_2$ norm guarantee. We then use the median with $r = O(\log\delta^{-1})$ to get $1-\delta$ correctness.
+
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 \end{document}
 
