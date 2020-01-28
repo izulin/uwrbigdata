@@ -78,7 +78,7 @@ Examples:
     \item linear algebra,
     \item trace amounts of combinatorics and ``typical'' A\&DS - that's why it might be tricky for CS students.
 \end{itemize}
-\section{Approximate counting}
+\section{Approximate counting} 
 The problem is to maintain a counter that supports following operations:
 \begin{align*}
 \text{reset(),  } &[n\leftarrow 0]\\
@@ -89,7 +89,7 @@ The problem is to maintain a counter that supports following operations:
 Simple lowerbound of $\log(n)$ bits for exact (information-theoretic lowerbound).
 
 \paragraph{Goal:} algorithm that queried outputs $n’$ such that $\Ppb( |n-n'| > \varepsilon n ) < \delta$.
-\subsection{Morris’ algorithm (Morris 1978)}
+\subsection{Morris’ algorithm \cite{DBLP:journals/cacm/Morris78a}}
 \paragraph{Local state:} X [int], represents $n \sim 2^X$. The crucial part of algorithm is to design how we increase $X$.
 
 \paragraph{Inc: }$X \leftarrow X+1$ with some small probability ($\sim 2^{-X}$), with intuition being that the ppb of $n$ being exactly $2^{X+1}-1$ is $2^{-X}$.
@@ -226,7 +226,7 @@ Randomness vs. pseudorandomness $\rightarrow$ c.f. exercises
 \section{Further reading}
 \begin{itemize}
     \item hyperloglog algorithm, which very efficient in theory and practice, but has extremely nontrivial analysis (cf. description on Wikipedia)
-    \item\ [Błasiok 2018] - optimal $\Theta(\log{n} + \frac{\log{\delta^{-1}}}{\varepsilon^2})$ bits.
+    \item\ \cite{DBLP:journals/corr/abs-1804-01642} - optimal $\Theta(\log{n} + \frac{\log{\delta^{-1}}}{\varepsilon^2})$ bits.
 
 \end{itemize}
 \appendix
@@ -365,4 +365,3 @@ Let $X_{1}, X_{2}, \ldots, X_{n} \in\{0,1\}$ be fully independent ran-dom variab
 \bibliographystyle{alpha}
 \bibliography{bib}
 \end{document}
-
