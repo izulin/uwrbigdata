@@ -5,6 +5,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -147,7 +149,7 @@ Final \textbf{bit} complexity $\bigo(\log \log (n/(\varepsilon \delta)) \frac{1}
 query() $\leftarrow$ number of distinct elements
 
 \paragraph{Trivial solution:} remember the stream, bitvector
-\subsection{Flajolet Martin 1985 (FM)}
+\subsection{Flajolet Martin \cite{DBLP:journals/jcss/FlajoletM85}}
 Pick a hash function $h: [n] \rightarrow [0,1]$     (for a moment let us assume ideal real numbers, and perfectly random hash function).
 
 \begin{enumerate}
@@ -360,5 +362,7 @@ Let $X_{1}, X_{2}, \ldots, X_{n} \in\{0,1\}$ be fully independent ran-dom variab
     \Ppb(|X-\Es[X]| \geq t) \leq 2 \exp \left(-\frac{t^{2}}{n}\right)
 \end{equation}
 \end{theorem}
+\bibliographystyle{alpha}
+\bibliography{bib}
 \end{document}
 
