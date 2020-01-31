@@ -5,6 +5,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -139,7 +141,7 @@ for any $I \subseteq [n], |I| = k$ and $t \not\in I$, there is
 $$F_t \not\subseteq \bigcup_{i \in I} F_i$$
 \end{definition}
 
-Explicit construction: (c.f. Reed-Solomon codes):
+Explicit construction:  \cite{doi:reed-solomon}
 
 consider polynomials of degree $d$, modulo $p$. Each polynomial $f(x)$ $\to$ its graph $\{(0,f(0)), (1,f(1)), \ldots, (p-1,f(p-1))\} \subseteq [p] \times [p]$. There are $p^d$ distinct polynomials. We thus create family of sets, where with each set (indexed by polynomial) we associate its graph. Thus $m = p^2$, $n = p^d$.
 
@@ -188,6 +190,9 @@ Better runtime (polylog): hierarchical structure (binary tree).
 \subsection{Count-sketch as sparse recovery}
 Similar analysis (with tail and heavy part of vectors) gives us
 $$ \|x - v\|_\infty \le \frac{C'}{\sqrt{k}} \|x_{\text{tail}(k)}\|_2 =  \frac{C'}{\sqrt{k}} \min_{z : \|z\|_0 \le k} \|x-z\|_2$$
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 
 \end{document}
 
