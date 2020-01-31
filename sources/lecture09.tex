@@ -3,10 +3,11 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{epsfig}
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
-\usepackage{setspace}
-\usepackage[utf8]{inputenc}
 \usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
 \usepackage[dvipsnames,usenames]{xcolor}
+
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -141,7 +142,7 @@ for any $I \subseteq [n], |I| = k$ and $t \not\in I$, there is
 $$F_t \not\subseteq \bigcup_{i \in I} F_i$$
 \end{definition}
 
-Explicit construction:  \cite{doi:reed-solomon}
+Explicit construction: \cite{doi:reed-solomon}:
 
 consider polynomials of degree $d$, modulo $p$. Each polynomial $f(x)$ $\to$ its graph $\{(0,f(0)), (1,f(1)), \ldots, (p-1,f(p-1))\} \subseteq [p] \times [p]$. There are $p^d$ distinct polynomials. We thus create family of sets, where with each set (indexed by polynomial) we associate its graph. Thus $m = p^2$, $n = p^d$.
 
