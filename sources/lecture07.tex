@@ -13,7 +13,7 @@
 \newcommand{\handout}[5]{
   \noindent
   \begin{center}
-  \framebox{
+  \framebox{fcit
     \vbox{\vspace{0.25cm}
       \hbox to 5.78in { {University of Wrocław:\hspace{0.12cm}Algorithms for
           Big Data (Fall'19)} \hfill #2 }
@@ -100,7 +100,7 @@ which proves optimality.
 
 Downside: time to compute SVD is $\bigo(\min(n^2d, nd^2))$ which can be prohibitive.
 
-\subsection{Approximate solution \cite{10.1109/FOCS.2006.37}}
+\subsection{Approximate solution}
 Instead of solving exact regression, we pick a projection $\Pi \in \mathbb{R}^{m \times n}$ and solve a problem of smaller dimensionality ($m$ instead of $n$):
 
 $$\textrm{minimize}\quad \|\Pi A x - \Pi b\|_2$$
