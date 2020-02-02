@@ -5,6 +5,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -148,7 +150,7 @@ $$\frac{\|h_{A}\|_1 }{\sqrt{k}} = \bigo(\frac{\eta}{\sqrt{k}}).$$
 By triangle inequality
 $$\|h\|_2 \le \|h_{AA_0}\|_2 + \|h_{(AA_0)^c}\|_2 =  \bigo(\frac{\eta}{\sqrt{k}})$$
 \end{proof}
-\subsection{Iterative Hard Thresholding}
+\subsection{Iterative Hard Thresholding \cite{4960344}}
 
 Assume $y = Ax+e$, where $e$ is some noise, and $x$ is $k$-sparse.
 
@@ -210,6 +212,8 @@ $$\le 4\varepsilon\|r^i\|_2 + 2 \sqrt{1+\varepsilon}\| e\|_2$$
 set $\varepsilon = 1/8$
 $$\le \frac12\|r^i\|_2 + 3\|e\|_2$$
 
+\bibliographystyle{alpha}
+\bibliography{bib}
 
 \end{document}
 

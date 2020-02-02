@@ -100,7 +100,7 @@ which proves optimality.
 
 Downside: time to compute SVD is $\bigo(\min(n^2d, nd^2))$ which can be prohibitive.
 
-\subsection{Approximate solution}
+\subsection{Approximate solution \cite{10.1109/FOCS.2006.37}}
 Instead of solving exact regression, we pick a projection $\Pi \in \mathbb{R}^{m \times n}$ and solve a problem of smaller dimensionality ($m$ instead of $n$):
 
 $$\textrm{minimize}\quad \|\Pi A x - \Pi b\|_2$$
