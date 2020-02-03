@@ -5,6 +5,9 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
+
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -47,7 +50,7 @@
 \lecture{8: Sparse FFT}{ 02/12/2019}{Lecturer: \emph{Przemysław Uznański }}{-}
 
 
-\section{Sparse FFT - no noise}
+\section{Sparse FFT - no noise \cite{10.1007/3-540-55719-9_79}}
 Assume wlog $n$ is power of two.
 
 \paragraph{Plan of solution:}
@@ -167,6 +170,11 @@ So picking $\varepsilon=1/2$ gives us by union bound $1/4$ ppb of success.
 Now the trick is to amplify the ppb by repeating each test $\bigo(\log \log n)$ times and do the majority vote. This amplifies the ppb to $1/(4 \log n)$, so by union bound the whole procedure is ok with $3/4$ ppb.
 
 \paragraph{Not covered:} how to extract the value of $\hat{a}_u$.
+
+
+\bibliographystyle{alpha}
+\bibliography{bib}
+
 \end{document}
 
 

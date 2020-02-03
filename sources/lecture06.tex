@@ -5,6 +5,9 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
+
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -48,7 +51,7 @@
 
 Many problems use linear algebra primitive operations. Exact  operations are costly to compute. Our goal is to show how approximate versions of those can be computed faster. 
 
-\section{Matrix multiplication}
+\section{Matrix multiplication \cite{DBLP:conf/issac/Gall14a}}
 $A \in \mathbb{R}^{m \times n}$ and $B \in \mathbb{R}^{n \times p}$. Compute $C  = A \times B\in \mathbb{R}^{m \times p}$ such that $c_{ik} = \sum_j a_{ij}b_{jk}$.
 
 Brute-force algorithm $\bigo(mnp)$. (In case of square matrices its $\bigo(n^3)$.) A line of algorithmic research improves the complexity of the algorithm: Strassen's algoritm $\bigo(n^{\log_2 7})$, ..., Le Gall $\bigo(n^{2.3728639})$. It is not of our concern, since the algorithms (beside Strassen's) are hugely impractical. 
@@ -61,7 +64,7 @@ $$\|A\|_F = \sqrt{ \sum_{i,j} a_{i,j}^2 }$$
 or $\ell_2$ norm
 $$\|A\|_2 = \sup_{\|x\|=1} |x^T A x|$$
 
-\subsection{Sampling approach}
+\subsection{Sampling approach \cite{doi:10.1137/S0097539704442684}}
 We represent $A$ as a column matrix and $B$ as row matrix 
 $$A = \begin{bmatrix} | & | & & | \\ a_1& a_2& \cdots& a_n\\ | & | & & |  \end{bmatrix}$$
 $$B = \begin{bmatrix} - & b_1 & -\\ - & b_2 & -\\ & \vdots & \\ - & b_n & - \end{bmatrix}$$
@@ -144,7 +147,7 @@ One idea is to: compute all pairwise differences $\|C_i - C_j\|_F$, and output $
 \item if $C_i$ is close to some $C_{i'}$ that is good then $C_i$ is almost good (with distance $2\varepsilon \|A\|_F \|B\|_F$).
 \end{itemize}
 
-\subsection{JL approach}
+\subsection{JL approach \cite{10.1109/FOCS.2006.37}}
 
 Let $S$ be a dimensionality reduction projection from JL lemma. That is, e.g. $S \in \mathbb{R}^{d \times n}$ for $d = \bigo(\varepsilon^{-2} \log n)$ with entries independent $\mathcal{N}(0,1)$ + normalization.
 For set $X$ of size $n$ of vectors in $\mathbb{R}^n$ we have $\forall_{v \in X} (1-\varepsilon)\|v\|^2 \le \|S v\|^2 \le (1+\varepsilon) \|v\|^2$ with high probability.
@@ -208,7 +211,7 @@ First, we note that it is enough to show the property for:
 
 Thus we limit ourselves to $S_{m-1} = \{x : \|x\| = 1\}$.
 
-\begin{definition}
+\begin{definition}[\cite{10.5555/581165}]
 For $X \subseteq \mathbb{R}^m$ we call $N \subseteq X$ an $\varepsilon$-net if following condition holds:
 $$\forall_{x \in X} \exists_{v \in N} \|x-v\|_2 \le \varepsilon$$
 \end{definition}
@@ -251,6 +254,9 @@ Take $x \in \mathbb{R}^m$ such that $\|x\| = 1$.
 \end{align*}
 
 and this finishes the proof.
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 
 \end{document}
 
