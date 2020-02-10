@@ -5,6 +5,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -47,7 +49,7 @@
 
 \lecture{13: MPC}{ 20/01/2020}{Lecturer: \emph{Przemysław Uznański }}{-}
 
-\section{Massively Parallel Computing}
+\section{Massively Parallel Computing \cite{DBLP:conf/spaa/LattanziMSV11}}
 Modern distributed computing model (captures map-reduce, hadoop, spark, etc.).
 
 \begin{itemize}
@@ -108,7 +110,7 @@ Observation: each round decreases \emph{in expectation} number of components by 
 \end{itemize}
 
 
-\section{MST \cite{DBLP:conf/spaa/Pandurangan0S16}}
+\section{MST}
 Input: graph of $N = n^{1+\delta}$ edges. Output: some approximation of a maximal matching. Output fits into single machine (one edge per vertex). Assume $S = n^{1+\varepsilon}$.
 \begin{itemize}
 \item Split output randomly into machines.
@@ -119,7 +121,7 @@ Input: graph of $N = n^{1+\delta}$ edges. Output: some approximation of a maxima
 Filtering step reduces total number of edges from $n^{1+\delta}$ to $n^{1+\delta-\varepsilon}$, thus the number of rounds is $\bigo(\delta/\varepsilon)$.
 
 
-\section{Maximal matching \cite{DBLP:conf/focs/BehnezhadHH19}}
+\section{Maximal matching}
 (Setting the same as in previous algorithm)
 
 \begin{itemize}
@@ -171,6 +173,9 @@ $G$ contains a matching of size $\Theta(n) - 2 \mu_{\text{old}} = \Theta(n)$ tha
 
 So any maximal matching in $G_i$ needs to be of size at least $\mu_{\text{old}} + \Omega(n/k)$. At most $\mu_{\text{old}}$ of edges in any maximal matching can be adjacent to vertices already blocked in previous rounds, so from maximal matching we are getting $\Omega(n/k)$ new edges.
 \end{proof}
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 
 \end{document}
 

@@ -5,6 +5,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -93,6 +95,10 @@ COLA (Cache-Oblivious Lookahead Array)\cite{DBLP:conf/icalp/BenderCR02}:
 
 Insert: $\frac{\log N}{B}$ amortized.
 Naive searches: bin-search in each level, so $\log^2 N$. Refine by adding lookahead pointers: each fourth element from level $i$ is preserved in level $i+1$, with pointer. Then searching incurs $\log N$ cost.
+
+\bibliographystyle{alpha}
+\bibliography{bib}
+
 \end{document}
 
 

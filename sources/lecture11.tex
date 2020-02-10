@@ -5,6 +5,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -201,6 +203,9 @@ so we keep connected components sketch separately for each edge weight.
 However, since we can get precise values of $K_i$, we can do better -- we can round each edge weight down to nearest power of $(1+\varepsilon)$. This introduces $1 \pm \varepsilon$ factor, but reduces number of different edge weights to $\bigo(\frac{\log w}{\varepsilon})$.
 
 Also note that since our sketches are linear, any edge insertion and removal can be done on the go. Total space is $\bigo(\frac{\log w \cdot \text{poly} \log n}{\varepsilon})$ per vertex, and processing time per insert/removal is the same, and query time is $\bigo(n \cdot \frac{\log w \cdot \text{poly} \log n}{\varepsilon})$ 
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 
 \end{document}
 
