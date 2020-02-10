@@ -3,6 +3,8 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{epsfig}
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
 %\spacing{1.06}
@@ -127,7 +129,7 @@ $$w(\text{MST}) = (n-1) + \sum_{i=1}^{w-1} (K_i - 1)$$
 If we run each MST estimator with error $\pm (\varepsilon/w)n$ (runtime $\bigo(\frac{d w^4 \log n}{\varepsilon^3})$), the total error of estimation is $\pm \varepsilon n$. Observation: since $w(\text{MST}) \ge n-1$, this is $1\pm \bigo(\varepsilon)$ multiplicative error.
 
 
-\section{Graph sketching for MST}
+\section{Graph sketching for MST \cite{DBLP:conf/soda/KlauckNP015}}
 \subsection{$L_0$ sampling}
 We consider a following problem:
 \begin{definition}
@@ -201,6 +203,9 @@ so we keep connected components sketch separately for each edge weight.
 However, since we can get precise values of $K_i$, we can do better -- we can round each edge weight down to nearest power of $(1+\varepsilon)$. This introduces $1 \pm \varepsilon$ factor, but reduces number of different edge weights to $\bigo(\frac{\log w}{\varepsilon})$.
 
 Also note that since our sketches are linear, any edge insertion and removal can be done on the go. Total space is $\bigo(\frac{\log w \cdot \text{poly} \log n}{\varepsilon})$ per vertex, and processing time per insert/removal is the same, and query time is $\bigo(n \cdot \frac{\log w \cdot \text{poly} \log n}{\varepsilon})$ 
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 
 \end{document}
 

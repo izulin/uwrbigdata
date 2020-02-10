@@ -5,6 +5,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -47,7 +49,7 @@
 
 \lecture{14: Caching}{ 27/01/2020}{Lecturer: \emph{Przemysław Uznański }}{-}
 
-\section{Cache-aware algorithms}
+\section{Cache-aware algorithms \cite{DBLP:conf/dagstuhl/KowarschikW02}}
 DAM model:
 \begin{itemize}
 \item  CPU
@@ -67,7 +69,7 @@ Example3: Binary search: $\log(N/B)$ (not really any significant gain)
 \item $B^\varepsilon$-trees: each node is a buffer of size $B$, with $B^\varepsilon$ pivots. Insert amortizes and costs $\frac{\log_B N}{\varepsilon B^{1-\varepsilon}}$, queries cost $\frac{\log_B N}{\varepsilon}$. Deletes by tombstones.
 \item Sorting $\bigo(\frac{N}{B} \log_{M/B} \frac{N}{B})$ by $M/B$-way mergesort.
 \end{enumerate}
-\section{Cache-oblivious algorithms}
+\section{Cache-oblivious algorithms \cite{DBLP:conf/spaa/BenderFFFKN07}}
 Desing of cache-aware algorithms requires fine-tuning to parameters of the model. In modern systems we have many levels of caching...
 
 The cache-oblivious model: do the algorithm that works well for (almost) any setting of parameters, as algorithm does not know $B$ or $M$.
@@ -84,7 +86,7 @@ Search trees: $\bigo(\log_B N)$. Static search tree - simulate B-tree on classic
 
 Analysis: cut in half until height piece size $\le B$. So its also $\ge \sqrt{B}$. Height of a piece is between $\log B$ and $\frac{1}{2} \log B$. Number of pieces along path to root is $\le \frac{\log N}{\frac{1}{2} \log B}$, and each piece is on at most $2$ blocks.
 
-COLA (Cache-Oblivious Lookahead Array):
+COLA (Cache-Oblivious Lookahead Array)\cite{DBLP:conf/icalp/BenderCR02}:
 \begin{itemize}
 \item $\log N$ levels
 \item $i$-th level contains $2^i$ elements, either completely full or completely empty
@@ -93,6 +95,9 @@ COLA (Cache-Oblivious Lookahead Array):
 
 Insert: $\frac{\log N}{B}$ amortized.
 Naive searches: bin-search in each level, so $\log^2 N$. Refine by adding lookahead pointers: each fourth element from level $i$ is preserved in level $i+1$, with pointer. Then searching incurs $\log N$ cost.
+
+\bibliographystyle{alpha}
+\bibliography{bib}
 \end{document}
 
 

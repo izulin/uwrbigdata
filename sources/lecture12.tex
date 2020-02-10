@@ -6,6 +6,8 @@
 \usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
 \newcommand{\handout}[5]{
@@ -49,7 +51,7 @@
 \lecture{12: Coresets}{ 13/01/2020}{Lecturer: \emph{Przemysław Uznański }}{-}
 
 
-\section{Coresets}
+\section{Coresets \cite{DBLP:journals/siamcomp/Chen09}}
 Setup: given set of $P \subseteq \mathbb{R}^d$, compute $C_P() : \mathbb{R}^d \to \mathbb{R}$. For example:
 \begin{itemize}
 \item $MEB$, a minimal enclosing ball: $C_P(o)$ is a radius of minimal enclosing ball for set $P$ centered at $o$. 
@@ -135,7 +137,7 @@ Examples:
 \item edge/vertex connectivity
 \end{itemize}
 
-\subsection{Spanners}
+\subsection{Spanners \cite{DBLP:journals/corr/abs-1911-05991}}
 
 Subgraph approximately preserving distances:
 
@@ -178,7 +180,8 @@ Maintain subgraph. Process edges one-by-one. If an edge causes a cycle of length
 \end{itemize}
 \end{enumerate}
 \end{proof}
-
+\bibliographystyle{alpha}
+\bibliography{bib}
 
 \end{document}
 
