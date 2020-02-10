@@ -49,7 +49,7 @@
 
 \lecture{13: MPC}{ 20/01/2020}{Lecturer: \emph{Przemysław Uznański }}{-}
 
-\section{Massively Parallel Computing}
+\section{Massively Parallel Computing \cite{DBLP:conf/spaa/LattanziMSV11}}
 Modern distributed computing model (captures map-reduce, hadoop, spark, etc.).
 
 \begin{itemize}
@@ -110,7 +110,7 @@ Observation: each round decreases \emph{in expectation} number of components by 
 \end{itemize}
 
 
-\section{MST \cite{DBLP:conf/spaa/Pandurangan0S16}}
+\section{MST}
 Input: graph of $N = n^{1+\delta}$ edges. Output: some approximation of a maximal matching. Output fits into single machine (one edge per vertex). Assume $S = n^{1+\varepsilon}$.
 \begin{itemize}
 \item Split output randomly into machines.
@@ -121,7 +121,7 @@ Input: graph of $N = n^{1+\delta}$ edges. Output: some approximation of a maxima
 Filtering step reduces total number of edges from $n^{1+\delta}$ to $n^{1+\delta-\varepsilon}$, thus the number of rounds is $\bigo(\delta/\varepsilon)$.
 
 
-\section{Maximal matching \cite{DBLP:conf/focs/BehnezhadHH19}}
+\section{Maximal matching}
 (Setting the same as in previous algorithm)
 
 \begin{itemize}
@@ -176,6 +176,7 @@ So any maximal matching in $G_i$ needs to be of size at least $\mu_{\text{old}} 
 
 \bibliographystyle{alpha}
 \bibliography{bib}
+
 \end{document}
 
 

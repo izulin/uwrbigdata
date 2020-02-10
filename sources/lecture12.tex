@@ -51,7 +51,7 @@
 \lecture{12: Coresets}{ 13/01/2020}{Lecturer: \emph{Przemysław Uznański }}{-}
 
 
-\section{Coresets \cite{DBLP:journals/siamcomp/Chen09}}
+\section{Coresets \cite{DBLP:conf/stoc/BadoiuHI02}}
 Setup: given set of $P \subseteq \mathbb{R}^d$, compute $C_P() : \mathbb{R}^d \to \mathbb{R}$. For example:
 \begin{itemize}
 \item $MEB$, a minimal enclosing ball: $C_P(o)$ is a radius of minimal enclosing ball for set $P$ centered at $o$. 
@@ -137,7 +137,7 @@ Examples:
 \item edge/vertex connectivity
 \end{itemize}
 
-\subsection{Spanners \cite{DBLP:journals/corr/abs-1911-05991}}
+\subsection{Spanners \cite{DBLP:journals/dcg/AlthoferDDJS93}}
 
 Subgraph approximately preserving distances:
 
@@ -180,6 +180,7 @@ Maintain subgraph. Process edges one-by-one. If an edge causes a cycle of length
 \end{itemize}
 \end{enumerate}
 \end{proof}
+
 \bibliographystyle{alpha}
 \bibliography{bib}
 
