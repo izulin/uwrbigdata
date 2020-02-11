@@ -84,7 +84,7 @@ If $S$ is a $c$-coreset for $P$ and $S'$ is a $c$-coreset for $P'$ and $P \cap P
 Exercise: proof for MEB.
 
 \begin{theorem}
-Assume that a problem is supported by a $(1+\alpha)$-coreset of size $f(\alpha)$, computable in linear space, with disjoint merhe property. Then there is a streaming algorithm with $1+\varepsilon$ guarantee, with space $\bigo(f(\varepsilon/\log n) \log n)$.
+Assume that a problem is supported by a $(1+\alpha)$-coreset of size $f(\alpha)$, computable in linear space, with disjoint merge property. Then there is a streaming algorithm with $1+\varepsilon$ guarantee, with space $\bigo(f(\varepsilon/\log n) \log n)$.
 \end{theorem}
 \begin{proof}
 Sketch of a proof: put stream of $n$ elements into binary tree. Each node stores coreset for the range below it. 
@@ -94,7 +94,7 @@ For two sibling nodes $N_1, N_2$ covering sets $A_1, A_2$, at level $i$, and par
 \item $N_1$ is $(1+\alpha)^i$-coreset for $A_1$ (and the same for $N_2$, $A_2$)
 \item $N_1 \cup N_2$ is $(1+\alpha)^i$-coreset for $A_1 \cup A_2$
 \item $N$ is constructed as $(1+\alpha)$-coreset for $N_1 \cup N_2$
-\item thuse $N$ is $(1+\alpha)^{i+1}$-coreset for $A_1 \cup A_2$
+\item thus $N$ is $(1+\alpha)^{i+1}$-coreset for $A_1 \cup A_2$
 \end{itemize}
 
 As a end-result, we have in the root $(1+\alpha)^{\log n}$-coreset for whole input. Selecting $\alpha = \bigo(\varepsilon/\log n)$ is enough.
@@ -108,7 +108,7 @@ For any direction $v_i$, pick $p_i \in P$ that is extremal in that direction.
 Set $S = \{p_i\}_{i=1}^m$  is a $(1+\bigo(\alpha^2))$-coreset for $P$.
 \end{claim}
 \begin{proof}
-Pick arbitrary $T$ ($T= \emptyset$ w.l.o.g. in this proof), and $P$ and constructed set $S$. Fix $o$. Pick furthest point $x \in P$, and close direction $v_i$, and maximal in this direction point $p_i \in S$. The angle $x$-$o$-$p_i$ is small (at most $\alpha$), so the stretch is upperbounded by $\frac{1}{\cos \alpha} = 1 + \bigo(\alpha^2)$.
+Pick arbitrary $T$ ($T= \emptyset$ w.l.o.g. in this proof), and $P$ and constructed set $S$. Fix $o$. Pick furthest point $x \in P$, and close direction $v_i$, and maximal in this direction point $p_i \in S$. The angle $x$-$o$-$p_i$ is small (at most $\alpha$), so the stretch is upper bounded by $\frac{1}{\cos \alpha} = 1 + \bigo(\alpha^2)$.
 \end{proof}
 
 \subsection{Coreset for median}
