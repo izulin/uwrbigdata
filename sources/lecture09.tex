@@ -83,7 +83,7 @@ We thus use a following algorithm:
 \end{itemize}
 
 Why does it work (and what is two-point algorithm)?
-First, $\hat{a}'_u = \frac1L\sum_{l=0}^{L-1} \hat{a}_{u + l n/L}$. On the other hand, by using timeshift-frequencyshift theorem, $a''$ is a sampling from shifted-by-one $a$, so $\hat{a}''_u = \frac1L\sum_{l=0}^{L-1} \hat{a}_{u+ln/L} \omega^{u+ln/L}$.
+First, $\hat{a}'_u = \frac1L\sum_{l=0}^{L-1} \hat{a}_{u + l n/L}$. On the other hand, by using timeshift-frequency shift theorem, $a''$ is a sampling from shifted-by-one $a$, so $\hat{a}''_u = \frac1L\sum_{l=0}^{L-1} \hat{a}_{u+ln/L} \omega^{u+ln/L}$.
 
 
 Any non-zero element of $\hat{a}$ falls (with $2/3$ ppb) into distinct ``buckets'' (birthday paradox), so $\hat{a}'_u = \frac1L\hat{a}_{u+ in/L}$ for some unknown $l$, and $\hat{a}''_u = \frac1L\hat{a}_{u+in/L} \omega^{u+in/L}$. Thus

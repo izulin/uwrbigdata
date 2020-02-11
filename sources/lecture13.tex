@@ -74,25 +74,25 @@ Idea:
 \item each machine receives input
 \item each machine samples randomly from its input
 \item each sample is sent to single machine ($1$ round)
-\item 1 machine gathers all the samples, sorts locally, and sents back to everyone approximate histogram
+\item 1 machine gathers all the samples, sorts locally, and sends back to everyone approximate histogram
 \item machines use approximate histogram to decide how to partition locally their input and sent it to proper receivers
 \item then everyone sorts their parts
 \end{itemize}
 
-Total sample size $s = \bigo(S)$, and whp histogram is with $\pm \varepsilon n$ error, where $\frac{\log n}{\varepsilon^2} \le s$. We are ok if error is $\bigo(S)$. This is satisfied when $S^{3/2} = \Omega(n \sqrt{\log n})$, or $S = \widetilde\Omega(n^{2/3})$, or $k = \widetilde\bigo(n^{1/3})$ $\implies$ sorting in $\bigo(1)$ rounds
+Total sample size $s = \bigo(S)$, and whp histogram is with $\pm \varepsilon n$ error, where $\frac{\log n}{\varepsilon^2} \le s$. We are fine if error is $\bigo(S)$. This is satisfied when $S^{3/2} = \Omega(n \sqrt{\log n})$, or $S = \widetilde\Omega(n^{2/3})$, or $k = \widetilde\bigo(n^{1/3})$ $\implies$ sorting in $\bigo(1)$ rounds
 
 
 \section{Connectivity}
 Input: list of edges, partitioned (arbitrarily), size $N$
-output: each vertex labeled with id of connected component
+output: each vertex labelled with id of connected component
 
 Notation: id of vertex $\pi(v)$, label of vertex $\ell(v)$, $\Gamma(v)$ denotes neighbourhood
 Approach:
 \begin{itemize}
 \item let $L_v$ be the set of vertices $\{u : \ell(u) = \ell(v)\}$ -- always a subset of connected component of $v$
 \item initially $\ell(v) \gets \pi(v)$
-\item some vertcies are called \emph{active}
-\item every $L_v$ will have exactly one active vertex (e.g. one with smallest $\ell$), that makes decisions wrt whole $L_v$, assume cannonically its $v$
+\item some vertices are called \emph{active}
+\item every $L_v$ will have exactly one active vertex (e.g. one with smallest $\ell$), that makes decisions wrt whole $L_v$, assume canonically its $v$
 \item in each round:
 \begin{itemize}
 \item each active vertex becomes a \emph{leader} with ppb $1/2$
@@ -106,7 +106,7 @@ Observation: each round decreases \emph{in expectation} number of components by 
 \begin{itemize}
 \item edges are stored locally
 \item split vertices of large degree into smaller vertices of degree $\bigo(S)$ (this is already non-trivial and requires e.g. sorting)
-\item ditributed data structure implementing vertex info required (implemented e.g. via sorting, emulates sending messages over the edges etc.)
+\item distributed data structure implementing vertex info required (implemented e.g. via sorting, emulates sending messages over the edges etc.)
 \end{itemize}
 
 
@@ -167,7 +167,7 @@ $\mu_{\text{old}}$ -- size of a maximum matching in $G_i$ using only edges in $E
 There exists matching in $G_1 \cup \ldots \cup G_{i}$ of size $\mu_{\text{old}} + \Omega(n/k)$.
 \end{lemma}
 \begin{proof}
-$G$ contains a matching of size $\Theta(n) - 2 \mu_{\text{old}} = \Theta(n)$ that is not adjacent to any of the vertices from already selected maching. By random partitioning, $\Theta(n/k)$ of those edges land in $G_i$, so $G_i$ contains matching of size $\mu_{\text{old}} + \Omega(n/k)$.
+$G$ contains a matching of size $\Theta(n) - 2 \mu_{\text{old}} = \Theta(n)$ that is not adjacent to any of the vertices from already selected matching. By random partitioning, $\Theta(n/k)$ of those edges land in $G_i$, so $G_i$ contains matching of size $\mu_{\text{old}} + \Omega(n/k)$.
 \end{proof}
 
 

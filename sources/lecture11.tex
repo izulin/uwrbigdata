@@ -89,7 +89,7 @@ To estimate the number of connected components in a graph $H$ we first pick a ra
 If $v$ is in a large connected component, that is an indication of a small number of connected components.
 \end{observation}
 
-Denote $K$ as number of connected components. Let $\text{CC}(v)$ denote conected component of $v$.
+Denote $K$ as number of connected components. Let $\text{CC}(v)$ denote connected component of $v$.
 
 \begin{lemma}
 For $v$ let $\alpha_v = \frac{1}{|\text{CC}(v)|}$. Then $K = \sum_v \alpha_v$.
@@ -142,7 +142,7 @@ Maintain a multiset $M$ over universe $[n]$, under insertions and deletions, and
 
 We are interested in a solution that takes $\text{poly} \log n$ space.
 
-\paragraph{First} assume we have a guarantee that when there is a query, $\|M\|_0 = 1$ (the trick is that $M$ might grow large and then shring). The solution is to maintain:
+\paragraph{First} assume we have a guarantee that when there is a query, $\|M\|_0 = 1$ (the trick is that $M$ might grow large and then shrink). The solution is to maintain:
 \begin{itemize}
 \item $C = \sum_{x \in M} x$
 \item $D = \sum_{x \in M} x^2$
@@ -170,7 +170,7 @@ General scheme:
 Total size is poly-logarithmic.
 
 \subsection{Connected components}
-We want to skecth $G$ to maintain connected components of $G$ under edge insertions and deletions. The sketch size of $\widetilde\bigo(n)$ -- this is necessary since initially each vertex is in its own connected component.
+We want to sketch $G$ to maintain connected components of $G$ under edge insertions and deletions. The sketch size of $\widetilde\bigo(n)$ -- this is necessary since initially each vertex is in its own connected component.
 
 Sketch of algorithm:
 \begin{itemize}
@@ -187,7 +187,7 @@ If $K$ is actual number of connected components, and $K_i$ denotes number after 
 \end{lemma}
 Thus, $\log n$ rounds are enough.
 
-\paragraph{Edge-based sketching:} we orient arbitrarily each edge, labeling its endpoints with $-1$ and $+1$.
+\paragraph{Edge-based sketching:} we orient arbitrarily each edge, labelling its endpoints with $-1$ and $+1$.
 Then, with each vertex $v$ we associate function $E \to \{-1,0,1\}$: $v(e) = 1$ or $v(e) = -1$ if $v$ is an endpoint of $e$, and otherwise $v(e) = 0$.
 
 For each connected component $X \subseteq V$ we maintain $L_0$ sampler for multiset set:

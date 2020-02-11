@@ -54,7 +54,7 @@ Many problems use linear algebra primitive operations. Exact  operations are cos
 \section{Matrix multiplication \cite{DBLP:conf/issac/Gall14a}}
 $A \in \mathbb{R}^{m \times n}$ and $B \in \mathbb{R}^{n \times p}$. Compute $C  = A \times B\in \mathbb{R}^{m \times p}$ such that $c_{ik} = \sum_j a_{ij}b_{jk}$.
 
-Brute-force algorithm $\bigo(mnp)$. (In case of square matrices its $\bigo(n^3)$.) A line of algorithmic research improves the complexity of the algorithm: Strassen's algoritm $\bigo(n^{\log_2 7})$, ..., Le Gall $\bigo(n^{2.3728639})$. It is not of our concern, since the algorithms (beside Strassen's) are hugely impractical. 
+Brute-force algorithm $\bigo(mnp)$. (In case of square matrices its $\bigo(n^3)$.) A line of algorithmic research improves the complexity of the algorithm: Strassen's algorithm $\bigo(n^{\log_2 7})$, ..., Le Gall $\bigo(n^{2.3728639})$. It is not of our concern, since the algorithms (beside Strassen's) are hugely impractical. 
 
 Our goal: randomized algorithm that outputs $C$ such that $\|C - A \times B\|$ is \emph{small} with high probability. (Need to define what does $\|\odot\|$ mean.)
 

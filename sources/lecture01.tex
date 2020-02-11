@@ -57,7 +57,7 @@
 \begin{itemize}
     \item Streaming (counting, heavy hitters, norm estimation, sampling)
  ($\sim4$ Lectures)
-    \item Dimensionality reduction and sparse linear algebra (eg. JL, approx matrix mul, compressed sensing)
+    \item Dimensionality reduction and sparse linear algebra (e.g. JL, approx matrix mul, compressed sensing)
  ($\sim4$ Lectures)
     \item Applications (geometry algo, coresets, graph algorithms, ANN, sliding window) ($\sim4$ Lectures)
 \end{itemize}
@@ -86,7 +86,7 @@ The problem is to maintain a counter that supports following operations:
 \text{query(),  } &[\text{output n}]
 \end{align*}
 
-Simple lowerbound of $\log(n)$ bits for exact (information-theoretic lowerbound).
+Simple lower bound of $\log(n)$ bits for exact (information-theoretic lower bound).
 
 \paragraph{Goal:} algorithm that queried outputs $n’$ such that $\Ppb( |n-n'| > \varepsilon n ) < \delta$.
 \subsection{Morris’ algorithm \cite{DBLP:journals/cacm/Morris78a}}
@@ -140,7 +140,7 @@ Chernoff bound gives us:
 for $t = \Theta(\lg (1 / \delta))$.
 Final \textbf{bit} complexity $\bigo(\log \log (n/(\varepsilon \delta)) \frac{1}{\varepsilon^2} \log(\frac{1}{\delta}))$.
 
-\paragraph{Lowerbound:} $\Omega(\log \log_{1+\varepsilon} n) = \Omega(\log(1/\varepsilon) + \log \log n)$ (for $\delta=0$, its trickier to prove lowerbound involving $\delta$)
+\paragraph{Lower bound:} $\Omega(\log \log_{1+\varepsilon} n) = \Omega(\log(1/\varepsilon) + \log \log n)$ (for $\delta=0$, its trickier to prove lowerbound involving $\delta$)
 
 
 \section{Distinct elements}
@@ -239,7 +239,7 @@ Randomness vs. pseudorandomness $\rightarrow$ c.f. exercises
 \begin{definition}
 \begin{enumerate}
     \item The empty set is an event, $\varnothing \in \sF$
-    \item Given a countable set of events $A_1, A_2, \dots$, its union is aso an event, $\bigcup_{i\in\Nat}A_i \in \sF$
+    \item Given a countable set of events $A_1, A_2, \dots$, its union is also an event, $\bigcup_{i\in\Nat}A_i \in \sF$
     \item if $A$ is an event, then so is the complementary set $A^c$
 \end{enumerate}
 \end{definition}
@@ -249,13 +249,13 @@ Randomness vs. pseudorandomness $\rightarrow$ c.f. exercises
     \item $\Ppb(\emptyset)=0, \Ppb(\Omega)=1$
     \item if $A_1, A_2, \dots$ are mutually excluding events, then $\Ppb\left(\cup_{i=1}^{\infty} A_{i}\right)=\sum_{i=1}^{\infty} \Ppb\left(A_{i}\right)$
 \end{enumerate}
-A $\Ppb: \mathcal{F} \mapsto[0,1]$ satysfying these is called a probability.
+A $\Ppb: \mathcal{F} \mapsto[0,1]$ satisfying these is called a probability.
 
 The triple $(\Omega, \mathcal{F}, \Ppb)$ is called a probability space.
 \end{definition}
 
 \begin{definition}
-We define coditional probability as 
+We define conditional probability as 
 \begin{equation*}
     \Ppb(A | B)=\frac{\Ppb(A \cap B)}{\Ppb(B)}
 \end{equation*}
@@ -284,7 +284,7 @@ for any finite subset J of I.
 
 \begin{definition}
 A random variable is
-Informally: A quantity which is assigned by a randomexperiment.
+Informally: A quantity which is assigned by a random experiment.
 Formally: A mapping $X : \Omega \rightarrow \Real$.
 \end{definition}
 \begin{definition}
