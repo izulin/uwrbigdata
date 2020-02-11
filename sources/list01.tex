@@ -33,7 +33,7 @@
 
 
 
-In the following set we are concerned in designing a (memory/query) efficient algorithm for a following problem: we are given (in an offline form\footnote{offline: read-only}) a binary array $A[1 .. n]$ where $\forall_i A[i] \in \{0,1\}$. Our goal is to estimate (up to some additive error $\varepsilon$) the value of $Y = \frac{1}{n}\sum_i A[i]$ using only little additional memory.
+In the following we are concerned in designing a (memory/query) efficient algorithm for a following problem: we are given (in an offline form\footnote{offline: read-only}) a binary array $A[1 .. n]$ where $\forall_i A[i] \in \{0,1\}$. Our goal is to estimate (up to some additive error $\varepsilon$) the value of $Y = \frac{1}{n}\sum_i A[i]$ using only little additional memory.
 
 \begin{aufg}[2 pts]
 Show that simple \emph{random sampling} performs well: select independently $i_1,i_2,\ldots,i_k \in [n]$. Show that $\frac{1}{k}(A[i_1]+\ldots+A[i_k])$ is an unbiased estimator of $Y$.\footnote{$X$ is an \emph{unbiased estimator} of $Y$ iff $\mathbb{E}[X] = Y$.} Use Hoeffding bound to bound $k$, the number of samples necessary, so that the estimation holds:
