@@ -18,7 +18,7 @@ Examples:
 * Count distinct elements in a stream, or maintain statistics in a continuous stream of updates (router + number of unique IP).
 
 ## Techniques
-* Probabilistic tools  - few probabilistic bounds are good enough 90\% of the time, sometimes we will need to go a little bit deeper (fancy distributions),
-* relaxing problem: $1\pm \varepsilon$ approximation and $1-\delta$ correctness guarantee,
+* Probabilistic tools  - few probabilistic bounds are good enough 90% of the time, sometimes we will need to go a little bit deeper (fancy distributions),
+* relaxing problem: 1±ɛ approximation and 1-𝛿 correctness probability guarantee,
 * linear algebra,
 * trace amounts of combinatorics and ``typical'' Algo & DataStructures - that's why it might be tricky for CS students.
