@@ -10,7 +10,7 @@ University of Wrocław, Spring 2022
 * Applications (geometry algo, coresets, graph algorithms, ANN, sliding window)
 
 ## Motivation
-Linear time/space algorithms are not good enough with modern datasets and their volume. Typical problem we are dealing with in this course: here is a stream of data, process it in a small space to compute output X. Usually there is a lower-bound preventing us to do it in a very small space \emph{exactly}. Hence we need to relax our problem to achieve very efficient (in space and time) algorithms.
+Linear time/space algorithms are not good enough with modern datasets and their volume. Typical problem we are dealing with in this course: here is a stream of data, process it in a small space to compute output X. Usually there is a lower-bound preventing us to do it in a very small space _exactly_. Hence we need to relax our problem to achieve very efficient (in space and time) algorithms.
 Examples:
 * Think of any recommendation system, where each user has assigned highly dimensional vector of preferences. We want to test similarity/dissimilarity of user profiles.
 * Database with approximate index (Approx Membership Queries), to quickly eliminate queries for elements that are not in the DB, except for few false positives.
