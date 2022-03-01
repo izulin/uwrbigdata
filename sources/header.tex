@@ -8,7 +8,7 @@
 \usepackage[dvipsnames,usenames]{xcolor}
 %\spacing{1.06}
 
-\newcommand{\handout}[5]{
+\newcommand{\handout}[3]{
   \noindent
   \begin{center}
   \framebox{
@@ -16,9 +16,9 @@
       \hbox to 5.78in { {University of Wrocław:\hspace{0.12cm}Algorithms for
           Big Data (Spring'22)} \hfill #2 }
       \vspace{0.48cm}
-      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \hbox to 5.78in { {\Large \hfill #3  \hfill} }
       \vspace{0.42cm}
-      \hbox to 5.78in {}\vspace{0.25cm}
+      \hbox to 5.78in {Lecturer: \emph{Przemysław Uznański}}\vspace{0.25cm}
     }
   }
   \end{center}
@@ -32,7 +32,7 @@
 \newcommand{\Nat}{\mathbf{N}}
 \newcommand{\Real}{\mathbf{R}}
 
-\newcommand{\lecture}[4]{\handout{#1}{#2}{}{}{Lecture #1}}
+\newcommand{\lecture}[2]{\handout{#1}{#2}{Lecture #1}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{corollary}[theorem]{Corollary}
