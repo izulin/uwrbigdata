@@ -5,7 +5,7 @@ University of Wrocław, Spring 2022
 # Introduction
 ## Topics of this course
 
-* Streaming (counting, heavy hitters, norm estimation, sampling)
+* Streaming (counting, heavy hitters, norm estimation, sampling): 
 * Dimensionality reduction and sparse linear algebra (e.g. JL, approx matrix mul, compressed sensing)
 * Applications (geometry algo, coresets, graph algorithms, ANN, sliding window)
 
@@ -22,3 +22,15 @@ Examples:
 * relaxing problem: 1±ɛ approximation and 1-𝛿 correctness probability guarantee,
 * linear algebra,
 * trace amounts of combinatorics and ``typical'' Algo & DataStructures - that's why it might be tricky for CS students.
+
+# Materials
+## Lectures
+* 02/03/2022 [Lecture 1: Approximate counting and distinct elements](https://github.com/izulin/uwrbigdata/blob/master/lectures/lecture01.pdf) (+probability recap)
+
+## Exercise classes
+* 02/03/2022 [Probability recap](https://github.com/izulin/uwrbigdata/blob/master/exercises/list01.pdf)
+
+# Rules of grading
+* Points for being *present* in the class (perfect attendance guarantees passing grade)
+* Points for solving problems at the whiteboard (in case of many volunteers, tie-breaking in favour of students having less points)
+* If you are shy: you can always hand me paper-written solution to problems for extra points.
