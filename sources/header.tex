@@ -1,0 +1,46 @@
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=Blue,citecolor=Blue,linkcolor=BrickRed]{hyperref}
+\usepackage[dvipsnames,usenames]{xcolor}
+%\spacing{1.06}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {University of Wrocław:\hspace{0.12cm}Algorithms for
+          Big Data (Spring'22)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in {}\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+\newcommand{\Ppb}{\mathbf{Pr}}
+\newcommand{\Es}{\mathbf{E}}
+\newcommand{\bigo}{\mathcal{O}}
+\newcommand{\Var}{\mathbf{Var}}
+\newcommand{\sF}{\mathcal{F}}
+\newcommand{\Nat}{\mathbf{N}}
+\newcommand{\Real}{\mathbf{R}}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{}{}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{remark}[theorem]{Remark}
