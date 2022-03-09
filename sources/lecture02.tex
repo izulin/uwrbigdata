@@ -6,7 +6,7 @@
 
 \begin{document}
 
-\lecture{2: AMS algorithm, Johnson-Lindenstrauss lemma}{ 09/03/2022}
+\lecture{2: AMS algorithm, Johnson-Lindenstrauss lemma}{09/03/2022}
 
 \section{Models of streaming}
 \begin{enumerate}
@@ -20,15 +20,15 @@ For a vector $\mathbf{x} = (x_1, \dots, x_d)$ we define its $p$-th moment to be
 $$ F_p = \sum_{i=1}^d |x_i|^p$$
 and $p$-th norm to be
 $$L_p = \left( \sum_{i=1}^d |x_i|^p\right)^{\frac{1}{p}}$$
-Examples: $F_0$ - number of non-zero elements (which is nontrivial in turnstile model, because $c_i$ can be less than 0), $F_1/L_1$ - Manhattan norm (trivial in semi-turnstile), $L_2$ - Euclidean norm.
+Examples: $F_0$ - number of non-zero elements (which is nontrivial in turnstile model, because $c_i$ can be less than 0), $F_1/L_1$ - Manhattan norm (trivial in semi-turnstile), $F_2/L_2$ - Euclidean norm.
 
 \subsection{AMS algorithm for $F_2$ \cite{DBLP:conf/stoc/AlonMS96} }
 \subsubsection{Introduction}
 Let $A = (a_1, a_2, \dots, a_n)$. We need a linear operation which will tell us the second moment of $A$, i.e. $\sum_{i=1}^n a_i^2$. \\
 Consider a sequence of independent coefficients $$r_i = \begin{cases}1 \quad&\textrm{with ppb }1/2\\ -1\quad&\textrm{with ppb }1/2 \end{cases}$$ 
-and let $Z = \sum_{i=1}^n r_i a_i$. $\mathbb{E}[Z]$ is obviously 0, but $Z^2$ is more interesting.
+and let $Z = \sum_{i=1}^n r_i a_i$. $\mathbb{E}[Z]$ is obviously 0, so let us look at the variance:
 \begin{align*}
-    \mathbb{E}[Z^2] &= \mathbb{E}\left[ \left( \sum_i r_i a_i \right)^2 \right] \\
+    \var(Z) = \mathbb{E}[Z^2] &= \mathbb{E}\left[ \left( \sum_i r_i a_i \right)^2 \right] \\
     &= \mathbb{E}\left[\sum_{i, j} r_i a_i r_j a_j \right] \\
     &= \sum_{i, j}a_i a_j \mathbb{E}[r_i r_j] \\
     &= \sum_i a_i^2 \mathbb{E}[r_i^2] \text{\quad (since for $i \neq j$ we have $\mathbb{E}[r_i r_j] = 0$)} \\
@@ -44,7 +44,7 @@ so it's an unbiased estimator of $F_2$. How good is the approximation?
 while the transition from first to second line is because whenever the $r_i$ are in odd power, their expectations cancel out to 0. \\
 With such approximation the Chebyshev inequality gives us
 $$ \mathbb{P} \left( \left|Z^2 - \mathbb{E}[Z^2] \right| \geq 4\mathbb{E}[Z^2] \right) \leq \frac{1}{4}$$
-A large, constant upper bound with constant probability isn't good, but we can apply the ''usual'' toolset - repeat the process $O\left( \frac{1}{\varepsilon^2} \right)$ times independently, averaging to reduce the variance. And repeat it $O\left( \log \frac{1}{\delta} \right)$ times taking median to get an approximation with $1 - \delta$ probability. Overall complexity is $O \left( \frac{\log \frac{1}{\delta}}{\varepsilon^2}\right)$ (of words of memory) and we need 4-wise independence of the hashing functions.
+A large, constant upper bound with constant probability isn't good, but we can apply the "median trick" again - repeat the process $O\left( \frac{1}{\varepsilon^2} \right)$ times, reducing the variance, and then repeat it $O\left( \log \frac{1}{\delta} \right)$ times to get an approximation with $1 - \delta$ probability. Overall complexity is $O \left( \frac{\log \frac{1}{\delta}}{\varepsilon^2}\right)$ (of words of memory) and we need 4-wise independence of the hashing functions.
 
 \subsection{Linearity of sketches}
 Rehashing the AMS sketches: fix $k = O(\varepsilon^{-2})$. Take a random matrix $R \in M_{k \times n}(\mathbb{R})$ with 4-wise independent coefficients $r_{ij} \in \{-1, 1\}$, calculate the vector $Z = Rx$ (sketch) and estimate $|x|_2^2$ with $|Z|_2^2 \cdot\frac{1}{k}$. The fact that our sketches are linear transformation is advantageous: if we compute sketch of vector $x$ being $R x$, and a sketch of vector $y$ being $R y$, then we can sketch $x-y$ as $R(x-y) = Rx - Ry$ - so e.g. we can estimate Euclidean distance between vectors. Similarly, linearity allows us to perform turnstile updates in the streaming setting.
@@ -64,12 +64,12 @@ We would like to end up with a bound for result deviation of
 $$ \mathbb{P}(|Z|_2^2 - k|x|_2^2 \leq \varepsilon k|x|_2^2) \leq \exp(-C \varepsilon^2 k),$$
 since then for $k = O \left( \frac{\log \frac{1}{\delta}}{\varepsilon^2}\right)$ the probability of failure is $1 - \delta$.
 WLOG assume that $|x|_2 = 1$.
-$$ \mathbb{P}(|Z|_2^2 \geq (1+\varepsilon) k \leq \exp (-\varepsilon^2 k + O(k\varepsilon^3)). $$
+$$ \mathbb{P}[|Z|_2^2 \geq (1+\varepsilon) k] \leq \exp (-\varepsilon^2 k + O(k\varepsilon^3)). $$
 Substituting $Y = |Z|_2^2$, $\alpha = k(1+\varepsilon)$, for any $s$ from Markov inequality we get
 \begin{align*}
     \mathbb{P}[Y > \alpha] = \mathbb{P}[e^{sY} > e^{s\alpha}] &\leq \frac{\mathbb{E}[e^{sY}]}{e^{s\alpha}} \\
     &= e^{-s\alpha} \mathbb{E}[e^{s \sum_{i=1}^k Z_i^2]} \\
-    &= e^{-s\alpha} \prod _{i=1}^k\mathbb{E}[e^{s Z_i^2]}
+    &= e^{-s\alpha} \prod _{i=1}^k\mathbb{E}[e^{s Z_i^2}]
 \end{align*}
 Since $Z_i$ are all normal as a linear combination of independent normal variables, we have
 \begin{align*}
