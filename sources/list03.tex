@@ -1,0 +1,61 @@
+\documentclass[12pt]{uebung}
+
+
+\dozent{Przemysław Uznański}
+\vorlesung{Algorithms for Big Data}
+\semester{Spring Semester 2022}
+%\tutoren{Tutoren name}
+ 
+\usepackage{amsmath}
+\usepackage{mathtools}
+ 
+ 
+%\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb,wasysym}
+%\usepackage{tikz}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+ 
+%\usepackage{multirow}
+
+\usepackage[english]{babel}
+ \begin{document}
+
+ \startnummer{1}
+ 
+\kopf[0]{21/10/2019}{3}
+
+
+\renewcommand{\aufgname}{Exercise}
+
+Sketching: we want to represent some large input (say $M$) with a much shorter sketch $s$. Additionally we want to be able to produce some form of estimate based solely on sketch (sketches). For example: Alice and Bob both hold long input strings, respectively $M_A$ and $M_B$. They want to compute (based only on their inputs) sketches $s_A$ and $s_B$ and send them to Charlie, who then computes e.g. a distance between $M_A$ and $M_B$ (approximately).
+
+\begin{aufg}
+Lets say $M \in [0,1]^n$ represents a vector of user preference. We can define a user cosine similarity score as
+$$\textrm{sim}(A,B) = \cos( \sphericalangle(M_A,M_B)),$$
+that is cosine of an angle the respective vectors make.
+Show an efficient way of sketching the vectors so that the cosine similarity can be computed with $\pm \varepsilon$ precision.
+\end{aufg}
+
+\vfill
+
+The goal for next exercises is to derive a sketching scheme for estimating \emph{Hamming distance}: $\textrm{Ham}(x,y) = | \{ i : x[i] \not= y[i] \} |$.
+
+\begin{aufg}
+Consider binary alphabet $\{0,1\}$. Use AMS sketches to derive efficient sketching scheme  for binary inputs for estimating Hamming distance (up to $1\pm\varepsilon$ factor). What is the size of sketches?
+\end{aufg}
+
+\begin{aufg}
+Consider random projection $\varphi : \Sigma \to \{0,1\}$.  Show that for any words $x,y$, the value of $2 \cdot \textrm{Ham}(\varphi(x), \varphi(y))$ approximates $\textrm{Ham}(x,y)$ \emph{in expectation}. Improve the quality of estimation to multiplicative $1\pm \varepsilon$ by averaging over many independent choices of $\varphi$. (How many?)
+\end{aufg}
+
+\begin{aufg}
+Show a sketching scheme for $1\pm \varepsilon$ approximating Hamming distance with sketches using $\mathcal{O}(\frac{\log^2 \delta^{-1}}{\varepsilon^4})$ words and working with probability $1-\delta$.
+\end{aufg}
+
+\begin{aufg}[2 pts]
+Improve the sketches from previous exercise to $\mathcal{O}(\frac{\log \delta^{-1}}{\varepsilon^2})$ words.
+\end{aufg}
+
+\end{document}
