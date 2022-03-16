@@ -1,0 +1,146 @@
+\documentclass[11pt]{article}
+\input{header.tex}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document}
+
+\lecture{3: Sketches for $L_p$ norms}{16/03/2022}
+
+\section{$p$-stable distributions}
+\begin{definition}
+  A distribution $\mathcal{D}$, with mean $0$, is called stable, if for $X_1,..,X_n \sim \mathcal{D}$ which are independent and $a_1,..,a_n \in \mathbb{R}$ there is $\sum_i a_i X_i = b \cdot Z$ for some $b \in \mathbb{R}$ and $Z \sim \mathcal{D}$.
+\end{definition}
+\begin{definition}
+  A distribution D is $p$-stable if is stable and coefficient $b$ from previous definition satisfies\[ b = \Big(\sum_i |x_i|^p\Big)^{1/p} \]
+\end{definition}
+
+\begin{remark}
+(Zolotarev, 1986) $p$-stable distribution exists if and only if $0 < p \leq 2$.
+
+For $p \in \{\frac{1}{2},1,2\}$ we know closed form formulas, e.g.:
+\begin{itemize}
+  \item Normal distribution, that is $f(x) = \frac{e^{-x^2/2}}{\sqrt{2 \pi}}$, is 2-stable.
+  \item Cauchy distribution, that is $f(x) = \frac{1}{(1+x^2) \pi}$, is 1-stable.
+  \item Lévy distribution is $\frac{1}{2}$-stable.
+\end{itemize}
+\end{remark}
+
+\begin{remark}
+  Except for $p=2$, those distributions are heavy tailed, that is $\E[|\mathcal{D}|] = \infty$ and $\E[\mathcal{D}^2] = \infty$ (this has to be, as by Central Limit Theorem distributions with finite moments cannot be stable, unless its normal distribution).
+\end{remark}
+
+\section{Sketches for $L_p$ norm \cite{DBLP:conf/focs/Indyk00}}
+
+Pick random coefficients $r_i \sim \mathcal{D}_p$ for  $i = 1 .. n$, where $\mathcal{D}_p$ is a $p$-stable distribution. Then
+$$Z = \sum_i x_i r_i$$ is a sketch of vector $\mathbf{x}$, since $Z \sim |\mathbf{x}|_p \mathcal{D}_p$. We will of course run many parallel instances of sketching process (as usual).
+
+\begin{remark}
+  Our sketches are linear functions, so linear combination of sketches is also a sketch.
+\end{remark}
+
+
+\medskip
+\noindent Whenever update $(x_i, c_i)$ comes, to maintain the sketch we compute $Z := Z + c_i \cdot r_{x_i}$ 
+
+Challenges:
+\begin{itemize}
+ \item How to draw random values from $p$-stable distribution?
+ \item How to extract the result?
+ \item How much independence is required?
+\end{itemize}
+\subsection{Drawing from $p$-stable}
+\begin{itemize}
+\item $p=1$:  If $U \sim \mathcal{U}(0,1)$ then $\tan{\pi(U - \frac{1}{2})}$ is distributed with the Cauchy distribution
+\item $p = 2$:
+  We can use Box-Muller transformation. If $U, V \sim \mathcal{U}(0,1)$ and are iid, then $\sqrt{-2\ln{U}}\cdot\cos{2\pi V}$ is distributed as a normal distribution.
+\item $p \in (0,2)$ and $p \neq 1$:
+  In this case p-stable distribution can be simulated by method derived by Chambers, Mallows and Stuck (1976). 
+  If $U, V \sim \mathcal{U}(0,1)$ and are iid and let's set $\Theta(U) = \pi (U - \frac{1}{2})$. Then 
+  $$
+  \frac{\sin{p\Theta(U)}}{\cos^{\frac{1}{p}}{\Theta(U)}} \Bigg(\frac{\cos{(\Theta(U)\cdot (1 - p))}}{- \ln V}\Bigg)^{\frac{1-p}{p}}
+  $$
+  is distributed as a p-stable distribution.
+\end{itemize}
+
+\subsection{Extracting the result via median}
+Recall $Z \sim |\mathbf{x}|_p \mathcal{D}_p$
+Expected value is useless, since it is infinite, so let's consider median: $$\textrm{median}(|Z|) \sim |\mathbf{x}|_p \cdot \textrm{median}(|\mathcal{D}_p|)$$ 
+
+\medskip
+\noindent How to extract median of a distribution $X$ (on $\mathbb{R}_+$)? 
+
+Let $F$ be CDF of distribution $X$. Let's also sample $k$ values $x_1,\dots,x_k \sim X$, and output $\textrm{median}(x_1,\dots,x_k)$. 
+By Chernoff bound, if we have
+$k = O(\log(\frac{1}{\delta})/\varepsilon^2)$, then $$F^{-1}(\frac{1}{2}-\varepsilon) \leq \textrm{median}(x_1,\dots,x_k) \leq F^{-1}(\frac{1}{2}+\varepsilon)$$
+\medskip
+If $F^\prime$ is not too flat around $F^{-1}(\frac{1}{2})$ (i.e. median), then $F^{-1}(\frac{1}{2} \pm \varepsilon)$ are actually $1\pm C\cdot\varepsilon$ approximations of median (required $F^\prime(x) \geq \frac{1}{C}$ in a given range). This becomes an issue when $p \rightarrow 0$, but we don't have to care for constant $p$.
+
+\medskip
+\noindent
+Estimator: $\frac{\textrm{median}(|Z|)}{\textrm{median}(|D_p|)} = \frac{\textrm{median}(|Z_1|,\ldots,|Z_k|)}{\textrm{median}(|D_p|)}$
+
+
+\subsection{Geometric mean estimator \cite{DBLP:conf/soda/Li08}}
+Use geometric mean as an estimator. 
+
+Output: $(\Pi_{i=1}^k|Z_i|)^{1/k} / \alpha$, where
+$\alpha = e^{\E(\ln |D_p| )}$, and $k = O(\log(\frac{1}{\delta}) / \varepsilon^2)$.
+
+\subsection{Independence}
+To use $p$-stability we assumed full $n$-wise independence - this means in theory huge space in streaming applications, and there is no easy workaround.  We present two workarounds that are theoretic in nature and require very sophisticated machinery.
+\subsubsection{First workaround \cite{DBLP:conf/focs/Indyk00}}
+Apply Nisan’s pRNG which is able to:
+\begin{itemize}
+\item Store its seed/local state in a $\textrm{polylog}(n)$ space
+\item Extract its next random number in a small working space and small time
+\item “Fool” small space (arbitrary) computations as if they were given perfect randomness
+\end{itemize}
+
+\subsubsection{Second workaround \cite{DBLP:conf/stoc/KaneNPW11}}
+Prove that $k$-wise independence is enough, for $$k = \mathcal{O}( \log \frac{1}{\varepsilon} \log\log\log \frac{1}{\varepsilon})$$
+
+\section{$L_p$ sketching for $p > 2$}
+\subsection{2-pass Algorithm}
+Algorithm (only for sequence of values, not for turnstile):
+  \begin{enumerate}
+    \item Pick uniformly and at random $i \in [n]$
+    \item In the first pass: Select $x = x_i$
+    \item In the second pass: Compute $f_{x} = |\{ j : x_j = x \}|$
+    \item return output $Y = n (f_x)^{p-1}$
+  \end{enumerate}
+$$E[Y] = \frac{1}{n}\sum_{i} n(f_{x_i})^{p-1} = \sum_{x} (f_x)^{p-1} f_x = \sum_{x} (f_x)^p = F_p$$
+$$E[Y^2] = \frac{1}{n}\sum_{i}n^2 (f_{x_i})^{2p-2} = n \sum_{x} (f_x)^{2p-2} f_x = n F_{2p-1}$$
+
+\begin{claim}
+  Following inequality holds $$n F_{2p-1} \leq m^{1-1/p} (F_p)^2$$
+\end{claim}
+\begin{proof}
+$$nF_{2p-1} = n \|f\|_{2p-1}^{2p-1} \leq n \|f\|_{p}^{2p-1} = \|f\|_1 \|f\|_p^{2p-1} \leq m^{1 - 1/p} \|f\|_p \|f\|_p^{2p-1} = m^{1 - 1/p} \|f\|_p^{2p} = m^{1 - 1/p} F_p^2$$
+For $\|f\|_1 \leq m^{1 - 1/p} \|f\|_p$ and $\|f\|_{2p-1} \le \|f\|_p$ see Wikipedia \footnote{\url{https://en.wikipedia.org/wiki/Lp_space}}.
+\end{proof}
+\subsection{1-pass Algorithm}
+How to pick random $i$ in a stream of unknown length?
+\begin{enumerate}
+  \item Initialize $r \gets 0$.
+  \item At $i$-th step of algorithm: with probability $\frac{1}{i}$ we set $x \gets x_i$ and $r \gets 0$
+  \item If $x_{i} = x$ then $r \gets r + 1$
+  \item Return output $Y^\prime = n(r^p - r^{p-1})$
+\end{enumerate}
+$$E[Y^\prime] = \sum_x \sum_{r \leq f_x} (r^p-r^{p-1}) = \sum_x (f_x)^p = F_p
+Y^\prime \leq n p r^{p-1} \leq n p (f_x)^{p-1} = p Y$$
+$$E[(Y^\prime)^2] \leq p^2 E[Y^2] = p^2 m^{1-1/p} (F_p)^2$$
+And thus the number of parallel runs should be $\mathcal{O}\Big(\frac{p^2 m^{1 - \frac{1}{p}}}{\varepsilon^2}\Big)$
+
+\begin{fact}
+  There is a lower bound for size of sketches for $L_p$, $p > 2$: $\Omega(m^{1-\frac{2}{p}}/\varepsilon^2)$ \cite{DBLP:journals/jcss/Bar-YossefJKS04}
+\end{fact}
+\begin{fact}
+  Best complexity of sketching is $\mathcal{O}(m^{1-\frac{2}{p}}/\varepsilon^2)$ -- achieved in turnstile model. \cite{DBLP:conf/stoc/IndykW05}
+\end{fact}
+
+\bibliographystyle{alpha}
+\bibliography{bib}
+\end{document}
+
