@@ -1,0 +1,61 @@
+\documentclass[12pt]{uebung}
+
+
+\dozent{Przemysław Uznański}
+\vorlesung{Algorithms for Big Data}
+\semester{Spring Semester 2022}
+%\tutoren{Tutoren name}
+ 
+\usepackage{amsmath}
+\usepackage{mathtools}
+ 
+ 
+%\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb,wasysym}
+%\usepackage{tikz}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+ 
+%\usepackage{multirow}
+
+\usepackage[english]{babel}
+ \begin{document}
+
+ \startnummer{1}
+ 
+\kopf[0]{22/03/2022}{4}
+
+
+\renewcommand{\aufgname}{Exercise}
+\begin{aufg}
+Show that Cauchy distribution $f(x) = \frac{1}{\pi(1+x^2)}$ is 1-stable, that is for $X,Y \sim \textsf{Cauchy}$ and $a,b \in \mathbb{R}$ we have $a*X+b*Y \sim (|a|+|b|) \cdot \textsf{Cauchy}$.
+\end{aufg}
+
+\begin{aufg}
+Modify the algorithm for computing $F_p$ of a stream (the one working for any $p$ in the sequence of values) to work in semi-turnstile streams (updates $(x_i,c_i)$ where $c_i \in \mathbb{R}^+$).
+\end{aufg}
+
+\bigskip
+\bigskip
+
+The goal of next few exercises is to show that $p$-stable distribution approach can be used for sketching of Hamming norm/distance. We follow the analysis from \emph{''Comparing Data Streams Using Hamming Norms
+(How to Zero In)''} by Cormode, Datar, Indyk and Muthukrishnan (VLDB'02).\footnote{With the only change that we actually want to do the correct analysis - the analysis in the paper has an error.}
+
+\begin{aufg}
+Assume we operate in universe $U$ of magnitude $u$, that is we have a promise that all our values we are ever going to see when sketching are integers from $\{-u,\ldots,1,0,1,\ldots,u\}$. Show that for sufficiently small value $p$, $F_p$ is an $1 \pm \varepsilon$ approximation of $F_0$. Show that $p= \Theta(\varepsilon/\log u)$ is small enough.
+
+Show that $u$-factor approximation of $L_p$ approximation is enough to obtain $1 \pm \varepsilon$ approximation of $F_p$, and thus $1 \pm 2\varepsilon$ of $F_0$.
+\end{aufg}
+
+\bigskip
+\bigskip
+
+
+Useful fact: when $p \to 0$, we have $\Pr( |X| > t) = \Theta(t^{-p})$ for $X$ drawn from $p$-stable, 0 mean, normalized by median stable distribution.
+
+\begin{aufg}[2 pts]
+Take value of $p$ from Exercise 3 and desired level of approximation. How many samples do we need to take from this $p$-stable distribution to reach this level of approximation for median estimation?
+What is the memory complexity of our algorithm? Take into account the actual bit-size of bignums needed in our algorithm.\footnote{And here is the omission of the authors...}
+\end{aufg}
+\end{document}
