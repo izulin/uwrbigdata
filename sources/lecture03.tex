@@ -126,9 +126,9 @@ How to pick random $i$ in a stream of unknown length?
   \item Initialize $r \gets 0$.
   \item At $i$-th step of algorithm: with probability $\frac{1}{i}$ we set $x \gets x_i$ and $r \gets 0$
   \item If $x_{i} = x$ then $r \gets r + 1$
-  \item Return output $Y^\prime = n(r^p - r^{p-1})$
+  \item Return output $Y^\prime = n(r^p - (r-1)^{p})$
 \end{enumerate}
-$$E[Y^\prime] = \sum_x \sum_{r \leq f_x} (r^p-r^{p-1}) = \sum_x (f_x)^p = F_p
+$$E[Y^\prime] = \sum_x \sum_{r \leq f_x} (r^p-(r-1)^{p}) = \sum_x (f_x)^p = F_p
 Y^\prime \leq n p r^{p-1} \leq n p (f_x)^{p-1} = p Y$$
 $$E[(Y^\prime)^2] \leq p^2 E[Y^2] = p^2 m^{1-1/p} (F_p)^2$$
 And thus the number of parallel runs should be $\mathcal{O}\Big(\frac{p^2 m^{1 - \frac{1}{p}}}{\varepsilon^2}\Big)$
