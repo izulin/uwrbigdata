@@ -39,7 +39,7 @@ Show that $\|F x\|_2 = \|x\|_2$ for any $x \in \mathbb{R}^n$.
 \end{aufg}
 
 \begin{aufg}
-Show that $F \times F = I$.
+Show that $FF = I$.
 \end{aufg}
 
 \begin{aufg}
@@ -49,7 +49,7 @@ Show algorithm that given $x \in \mathbb{R}^n$ computes $Fx$ in time $\bigo(n \l
 \vfill
 
 \begin{definition}[Fourier matrix]
-Let $\omega = (-1)^{1/n} = \cos(2\pi/n)+i \sin(2 \pi/n)$. We define $W$ as a $n\times n$ matrix such that 
+Let $\omega = 1^{1/n} = \cos(2\pi/n)+i \sin(2 \pi/n)$. We define $W$ as a $n\times n$ matrix such that 
 $W = \frac{1}{\sqrt{n}} \begin{bmatrix} 1 & 1 & 1 & 1 & \hdots & 1\\ 1 & \omega & \omega^2 & \omega^3 & \hdots & \omega^{n-1}\\ 1 & \omega^2 & \omega^4 & \omega^6 & \hdots & \omega^{2(n-1)}\\ 1 & \omega^3 & \omega^6 & \omega^9 & \hdots & \omega^{3(n-1)}\\ \vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\ 1 & \omega^{n-1} & \omega^{2(n-1)} & \omega^{3(n-1)} &  \hdots & \omega^{(n-1)(n-1)} \end{bmatrix}$.
 \end{definition}
 
@@ -58,7 +58,7 @@ Show that $\|W x\|_2 = \|x\|_2$ for any $x \in \mathbb{C}^n$.
 \end{aufg}
 
 \begin{aufg}
-Show that $W \times \overline{W} = I$.
+Show that $W \overline{W} = I$.
 \end{aufg}
 
 \begin{aufg}
