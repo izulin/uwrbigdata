@@ -1,0 +1,75 @@
+\documentclass[12pt]{uebung}
+
+
+\dozent{Przemysław Uznański}
+\vorlesung{Algorithms for Big Data}
+\semester{Spring Semester 2022}
+%\tutoren{Tutoren name}
+ 
+\usepackage{amsmath}
+\usepackage{mathtools}
+ 
+ 
+%\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb,wasysym}
+%\usepackage{tikz}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+ 
+%\usepackage{multirow}
+
+\usepackage[english]{babel}
+
+ \begin{document}
+
+ \startnummer{1}
+ 
+\kopf[0]{20/04/2022}{8}
+
+\newcommand{\bigo}{\mathcal{O}}
+\renewcommand{\aufgname}{Exercise}
+
+Consider a regression problem of 
+\begin{equation}
+\label{eq1}
+\arg \min_{X}\quad \|AX - B\|_F
+\end{equation}
+where $A \in \mathbb{R}^{n \times d}$, $B \in \mathbb{R}^{n \times m}$ and $X \in \mathbb{R}^{d \times m}$.
+
+\begin{aufg}
+Show that $X = A^\dagger B$ is a solution to \eqref{eq1}.
+\end{aufg}
+\begin{aufg}
+Show that $X$ from previous exercise minimizes $\|X\|_F$ among all the solutions.
+\end{aufg}
+
+\vspace{2cm}
+We move to low-rank approximation:
+$$A_k = \arg \min_{B : \text{rank}(B) \le k} \|A - B\|_F$$
+\begin{aufg}
+Show that $\Sigma_k$ (as defined on the lecture) is a low-rank approximation to $\Sigma$ wrt to Frobenius norm (that is it solves the problem for diagonal matrices).
+\end{aufg}
+\begin{aufg}
+Use previous exercise to show that $A_k = U \Sigma_k V^T$ is indeed low-rank approximation to $A = U \Sigma V^T$.
+\end{aufg}
+
+\vspace{2cm}
+
+We move to Fourier transform. Let $\omega = e^{-\frac{2 \pi}{n}}$. Let $F$ be such that $F_{ij} = \frac{1}{\sqrt{n}}\omega^{ij}$. Then $\hat{a} = F a$ is a (Discrete) Fourier transform of $a$.
+
+\begin{aufg}
+Show that $\|a\|_2 = \|\hat{a}\|_2$.
+\end{aufg}
+
+\begin{aufg}
+Let $\hat{a}_k$ is $\hat{a}$ with all but $k$ largest-magnitude coefficients zeroed. Show that $a_k = F^{-1} \hat{a}_k$ is a solution to
+$$\arg \min_{x : fs(x) \le k} \|a - x\|_2$$
+where $fs(x) = \|\hat{x}\|_0$ is the size of Fourier support.
+\end{aufg}
+
+
+
+
+
+\end{document}

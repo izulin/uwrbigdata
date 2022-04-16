@@ -1,0 +1,177 @@
+\documentclass[11pt]{article}
+\input{header.tex}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+\newcommand{\eps}{\varepsilon}
+\setcounter{MaxMatrixCols}{20}
+
+\begin{document}
+
+\lecture{7: Regression, Low Rank Approximation}{ 13/04/2022}
+\section{Linear Regression}
+In a regression problem we have predictor variables $a_1, \ldots,a_d$ and a measured variable $b$. In linear regression, we assume there is a relation $b \approx \sum_i a_i x_i$ for some $x_1,\ldots,x_d \in \mathbb{R}$.
+
+We assume we received $n$ batches $(a_{i,1},\ldots,a_{i,d},b_i), i = 1..n$. In the least square method we minimize the cost function
+$$\sum_{i} (a_{i,1}x_1 + \ldots a_{i,d} x_d - b_i)^2.$$
+Formally:
+\begin{definition}
+On the input we have $A = \mathbb{R}^{n \times d}$ and $b \in \mathbb{R}^{n}$. Least square linear regression asks for $x \in \mathbb{R}^d$ so that
+$$ \|A x - b\|_2$$
+is minimized.
+\end{definition}
+
+\subsection{Exact solution}
+Assume $b = Ax' + b'$ where $b'$ is orthogonal to $\textrm{colsp}(A)$ (column space of $A$) and $Ax'$ is projection of $b$ onto $\textrm{colsp}(A)$. Then (by Pythagorean theorem)
+$$\|Ax-b\|_2^2 = \|A(x-x') - b'\|_2^2 = \|A(x-x')\|_2^2 + \|b'\|_2^2$$ 
+which is minimized when $x=x'$. The condition of $Ax'$ being projection is equivalent to
+$$A^T(Ax'-b) = A^T b' = 0$$
+so equivalently we have a following condition
+\begin{equation}
+\label{cond1}
+A^T A x' = A^T b.
+\end{equation}
+
+If $(A^T A)$ is invertible (its rank is $d$), we can simply compute  $$x' = (A^T A)^{-1} A^T b.$$
+
+\begin{definition}
+Let $A = U \Sigma V^T$ be SVD of $A$. Let $\Sigma^\dagger$ be defined as diagonal matrix where $\Sigma^\dagger_{i,i} = \frac{1}{\Sigma_{i,i}}$ if $\Sigma_{i,i} \not=0$ and $0$ otherwise. We then call $A^{\dagger} = V \Sigma^{\dagger} U^T$ a \emph{pseudoinverse} of $A$.
+\end{definition}
+
+\begin{theorem}
+$x' = A^\dagger b$ satisfies condition~\eqref{cond1} and has minimal $L_2$ norm among all the solutions.
+\end{theorem}
+\begin{proof}
+First part:
+$$A^TA x' = A^TA A^{\dagger} b = (V 
+\Sigma^T U^T  ) (U \Sigma V^T) (V \Sigma^{\dagger} U^T) b = V \Sigma^T \Sigma \Sigma^\dagger U^T b = V \Sigma^T U^T b = A^T b$$
+(note, $\Sigma^T \Sigma \Sigma^\dagger = \Sigma^T$ even though $\Sigma \Sigma^\dagger \not= I$ generally).
+
+Second part:
+any solution is of the form
+$$x'' = A^\dagger b + z$$
+where $A^TAz = 0$, or equivalently $V \Sigma^T \Sigma V^T z = 0$ or $\Sigma^T \Sigma V^T z = 0$ (since $V$ is orthonormal) or $\Sigma V^T z = 0$ (since $\textrm{Ker}(\Sigma^T \Sigma) = \textrm{Ker}(\Sigma)$) or $V^Tz \in \textrm{Ker}(\Sigma)$ or $z \in V \cdot \textrm{Ker}(\Sigma)$.
+
+We have $A\dagger b = V \Sigma^\dagger U^T b \in V \cdot \textrm{Im}(\Sigma^\dagger) = V \cdot \textrm{Im}(\Sigma)$.
+
+Since $\textrm{Ker}(\Sigma) \perp \textrm{Im}(\Sigma^\dagger)$, and since $V$ is orthonormal, $V \cdot \textrm{Ker}(\Sigma) \perp V \cdot \textrm{Im}(\Sigma^\dagger)$. So by the Pythagorean theorem,
+$$\|x''\|_2^2 = \|A^{\dagger} b\|_2^2 + \|z\|_2^2 \ge  \|A^{\dagger} b\|_2^2$$
+which proves optimality.
+\end{proof}
+
+Downside: time to compute SVD is $\bigo(\min(n^2d, nd^2))$ which can be prohibitive.
+
+\subsection{Approximate solution}
+Instead of solving exact regression, we pick a projection $\Pi \in \mathbb{R}^{m \times n}$ and solve a problem of smaller dimensionality ($m$ instead of $n$), where we have $\Pi A$ and $\Pi b$ instead of $A$ and $b$:
+
+$$\textrm{minimize}\quad \|\Pi A x - \Pi b\|_2$$
+
+It is enough to use subspace embedding $\Pi$ for space spanned on columns of $A$  + single vector $b$. Thus we can pick oblivious subspace embedding for $m = \bigo(d/\varepsilon^2)$, and have
+
+$$\forall_{x \in \mathbb{R}^d} \|A x - b\|_2 \le \|\Pi A x - \Pi b\|_2 \le (1+\varepsilon) \| A x - b\|_2.$$
+
+Thus minimizing projected problem provides $1+\varepsilon$ approximation to original regression problem.
+
+Total computation time is $\bigo(mn + \min(m^2d,md^2)) = \bigo(nd/\varepsilon^2 + d^3 / \varepsilon^2)$.
+
+\section{Low rank approximation}
+Consider input matrix $A \in \mathbb{R}^{n \times d}$. The goal of the low-rank approximation is the following:
+find $B$ such that  $B$ has small rank and $B \approx A$.
+
+Denote such $B = C \times D$, where $C \in \mathbb{R}^{n \times k}$ and $D \in \mathbb{R}^{k \times d}$. Motivation (assume $k$ is small)
+\begin{itemize}
+\item $B$ requires much less space to store: $nk + kd$ vs $nd$.
+\item matrix-vector  multiplication involving $B$ is much faster: $B \cdot v$ takes $\bigo(nk + kd)$ time vs $\bigo(nd)$ time of $A \cdot v$.
+\item matrix-matrix multiplication: for $X \in \mathbb{R}^{d \times m}$, $B \cdot X$ takes $\bigo(kdm + nkm)$, vs $\bigo(ndm)$ time  of $A \cdot X$
+\item $A$ might have low-rank natural structure but we measured it with noise. Then $B$ is the denoising of $A$
+\end{itemize}
+\subsection{Exact solution}
+We are looking at
+$$ \arg \min_{B : \textrm{rank}(B)\le k} \|A-B\|$$ 
+and denote it as $A_k$, best rank-$k$ approximation of $A$.
+
+How to find such $A_k$? Following theorem holds for both $\|\cdot\|_F$ and $\|\cdot\|_2$ norms.
+
+
+
+\begin{theorem}[Eckart-Young theorem]
+Consider SVD of $A = U \Sigma V^T$. Let $\Sigma_k$ be $\Sigma$ where only $k$ largest in absolute value singular values are preserved, and every other value is zeroed.
+\begin{equation}
+\label{eq:bestrankk}
+A_k = U \Sigma_k V^T
+\end{equation}
+\end{theorem}
+
+Unfortunately the time is dominated by SVD computation $\bigo(\min(nd^2,n^2d))$.
+
+\subsection{Approximate solution - projection}
+Approximate low rank approximation: we are looking for rank-$k$ $A'_k$ such that:
+$$\|A'_k - A\|_F = (1\pm \varepsilon) \|A_k - A\|.$$
+
+Obtaining good approximate solution is possible for this problem, using the same framework: we project our problem to smaller dimension and hope that solution in reduced dimension approximates good solution to original problem.
+
+Specifically, we use projection matrix $S \in \mathbb{R}^{m \times n}$, for small $m$. So $m = \bigo(k/\varepsilon)$ (note, $m$ is independent of dimensions of $A$, and depends on desired rank $k$). 
+
+First, we show that it is ok to limit ourselves to following:
+\begin{theorem}
+$$\min_{Y: \textrm{rank}(Y) \le k} \|YSA - A\|_F \le (1+\varepsilon)\|A-A_k\|_F$$
+that is it is enough to limit ourselves to rank-$k$ matrices in a row-space of $SA$.
+\end{theorem}
+\begin{proof}
+Consider the regression problem:
+$$\min_{X} \|A_k X - A \|_F$$
+We have\footnote{we picked $S$ dimension to have a property of \emph{affine embedding}: an approximate norm preserving projection for matrices, proof of this fact is outside of scope of this lecture}
+$$\|SA_k X - SA \|_F = (1\pm \varepsilon)\|A_kX - A\|_F.$$
+Left side is minimized for $X = (SA_k)^{\dagger} SA$ (see exercises), while right side is always at least $\|A_k - A\|_F$ (since $A_kX$ is rank at most $k$ and $A_k$ was the best approximation of $A$ for rank-$k$), so
+$$\|SA_k (SA_k)^{\dagger} SA - SA\|_F = (1\pm \varepsilon) \|A_k - A \|_F$$
+and since $S$ is an affine embedding, we can skip $S$ on the left side at the cost of an extra $1\pm\varepsilon$ factor.
+Thus we see that it is enough to set $Y = A_k (SA_k)^{\dagger}$ to have proper guarantees, and such $Y$ is of rank at most $k$.
+\end{proof}
+We choose a second affine embedding $R \in \mathbb{R}^{n \times m}$, so that
+$$\|YSAR - AR \|_F = (1\pm \varepsilon)\|YSA - A\|_F.$$
+And so we reduced our problem to a following form: find rank-$k$ $Y$ that minimizes
+$$\|YSAR - AR\|_F$$
+and output $YSA$ (preferably in a factorized form).
+
+We now observe that\footnote{to project $b$ to subspace of $Ax$ we need to set $x = A^{\dagger}b$, similarly to project to subspace $xA$ we need to set $x = bA^{\dagger}$, and this generalizes to matrices, see exercise}, by pythagorean theorem and properties of projections:
+$$\|YSAR - A\|_F^2  = \|YSAR - A (SAR)^\dagger SAR\|_F^2 + \|A(SAR)^\dagger SAR - A\|_F^2$$
+
+thus we need to find rank-$k$ $Y$ that minimizes
+$$\|YSAR - A (SAR)^\dagger SAR\|_F$$
+
+however if $Y$ is rank $\le k$, then so is $YSAR$, so it is enough to find rank-$k$ $Z$ that minimizes:
+$$\|Z - A (SAR)^\dagger SAR\|_F$$
+and (by the structure of optimization problem) have $Z = YSAR$ guaranteed. Now we can apply Eckart-Young theorem to $A(SAR)^\dagger SAR$. It requires SVD, but the matrix we run it on is of dimension $n \times m$ so the cost is $n m^2 = n \frac{k^2}{\varepsilon^2}$. Thus we obtain $Z = C D$ where $C \in \mathbb{R}^{n \times k}$ and $D \in \mathbb{R}^{k\times m}$, and we can output
+$Z(SAR)^\dagger SA = C (D (SAR)^\dagger SA)$ with factors being $C$ and $D (SAR)^\dagger SA$. Relevant computations of $SA$, $SAR$ and $ (SAR)^\dagger $ are all tractable (in time $n \frac{k^2}{\varepsilon^2}$).
+
+
+
+\section{Sparse Fourier}
+Fourier transform: signal $\to$ frequencies. 
+\begin{definition}
+Assume $a = (a_0,\ldots,a_{n-1})$ is a signal. Let $\omega$ be $n$-th root of unity, that is $\omega = e^{-\frac{2 \pi}{n}}$. Let $F$ be such that $F_{ij} = \frac{1}{\sqrt{n}}\omega^{ij}$. Then $\hat{a} = F a$ is a (Discrete) Fourier transform of $a$.
+\end{definition}
+
+DFT can be computed in $\bigo(n \log n)$ time. However, for some applications this time can already be prohibitive. Consider a following scenario (of signal compression):
+\begin{itemize}
+\item Take input signal $a$ and compute $\hat{a}$.
+\item Let $\hat{a}_k$ be $\hat{a}$ with only $k$ largest magnitude elements kept (rest is zeroed).
+\item Output $a_k = F^{-1} \hat{a}_k$.
+\end{itemize}
+
+If we consider complexity measure of Fourier support $fs(a) = \|\hat{a}\|_0$ that is number of non-zero Fourier coefficients, then actually there is
+$$ a_k = \arg \min_{x : fs(x) \le k} \|a - x\|_2$$
+(proof: exercise)
+
+If we assume that $a$ comes from real-life scenarios (photos, audio recording), then it should have only few ``strong'' frequencies, rest is noise. Since $a_k$ has much simpler representation (namely, $\hat{a}_k$ which takes $\bigo(k \log n)$ bits), this is a lossy compression scheme.
+
+How do we compute $\hat{a}_k$ efficiently? (Assumption is that we have random access to $a$, otherwise just \emph{reading} the input would dominate the computation time.)
+
+Simpler question: can we recover $\hat{a}$ if we know that $fs(a) = \|\hat{a}\|_0 \le k$ (so there are only $k$ non-zero frequencies)?
+
+\bibliographystyle{alpha}
+\bibliography{bib}
+
+\end{document}
+
+
