@@ -149,7 +149,7 @@ $Z(SAR)^\dagger SA = C (D (SAR)^\dagger SA)$ with factors being $C$ and $D (SAR)
 \section{Sparse Fourier}
 Fourier transform: signal $\to$ frequencies. 
 \begin{definition}
-Assume $a = (a_0,\ldots,a_{n-1})$ is a signal. Let $\omega$ be $n$-th root of unity, that is $\omega = e^{-\frac{2 \pi}{n}}$. Let $F$ be such that $F_{ij} = \frac{1}{\sqrt{n}}\omega^{ij}$. Then $\hat{a} = F a$ is a (Discrete) Fourier transform of $a$.
+Assume $a = (a_0,\ldots,a_{n-1})$ is a signal. Let $\omega$ be $n$-th root of unity, that is $\omega = e^{\frac{2 \pi}{n}i}$. Let $F$ be such that $F_{ij} = \frac{1}{\sqrt{n}}\omega^{ij}$. Then $\hat{a} = F a$ is a (Discrete) Fourier transform of $a$.
 \end{definition}
 
 DFT can be computed in $\bigo(n \log n)$ time. However, for some applications this time can already be prohibitive. Consider a following scenario (of signal compression):
