@@ -1,0 +1,51 @@
+\documentclass[12pt]{uebung}
+
+
+\dozent{Przemysław Uznański}
+\vorlesung{Algorithms for Big Data}
+\semester{Spring Semester 2022}
+%\tutoren{Tutoren name}
+ 
+\usepackage{amsmath}
+\usepackage{mathtools}
+ 
+ 
+%\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb,wasysym}
+%\usepackage{tikz}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+ 
+%\usepackage{multirow}
+
+\usepackage[english]{babel}
+
+ \begin{document}
+
+ \startnummer{1}
+ 
+\kopf[0]{16/12/2019}{10}
+
+\newcommand{\bigo}{\mathcal{O}}
+\renewcommand{\aufgname}{Exercise}
+
+Below we assume that $k \ll m \ll n$ to avoid annoying border-cases.
+%TODO $\le (k+1)$-separable implies $k$-disjointness
+
+\begin{aufg}
+Show that any $k$-disjoint set family separates $I_1,I_2$ such that $I_1 \not= I_2$ and $|I_2|$ can be arbitrarily large, while $|I_1| \le k$.
+\end{aufg}
+
+\begin{aufg}
+Describe a decoding procedure for $k$-disjoint set family: given $\bigcup_{i \in I} F_i$, output $I$ if $|I| \le k$, or output that it is not the case.
+\end{aufg}
+
+\begin{aufg}
+Let $A$ be a $k$-disjoint matrix (columns describe $k$-disjoint set family).  Show a decoding procedure, which for a given $Ax$ outputs $x$ if $x$ is $k$-sparse, and otherwise outputs that its not the case. Assume $x \ge 0$.
+\end{aufg}
+
+\begin{aufg}[2 pts]
+Assume $k$-disjoint family which has arbitrarily slow decoding procedure. Show that there exists $k$-separable family with $m' = \bigo(m \log n)$, and decoding time $\textrm{poly}(m,k,\log n)$. 
+\end{aufg}
+\end{document}
