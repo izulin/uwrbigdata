@@ -1,0 +1,50 @@
+\documentclass[12pt]{uebung}
+
+
+\dozent{Przemysław Uznański}
+\vorlesung{Algorithms for Big Data}
+\semester{Spring Semester 2022}
+%\tutoren{Tutoren name}
+ 
+\usepackage{amsmath}
+\usepackage{mathtools}
+ 
+ 
+%\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb,wasysym}
+%\usepackage{tikz}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+ 
+%\usepackage{multirow}
+
+\usepackage[english]{babel}
+
+ \begin{document}
+
+ \startnummer{1}
+ 
+\kopf[0]{18/05/2022}{11}
+
+\newcommand{\bigo}{\mathcal{O}}
+\renewcommand{\aufgname}{Exercise}
+
+\begin{aufg}
+Write explicitly the LP for compressed sensing $L_1$ norm minimization.
+\end{aufg}
+
+\begin{aufg}[2 pts.]
+What is the complexity of the decision version of the $L_0$ norm minimization for the compressed sensing: given $A$, $b$ and $k$, is there $k$-sparse $x$ such that $Ax = b$.
+\end{aufg}
+
+\begin{aufg}
+Given $p,q \ge 1$, find and prove tight bounds for $\frac{\|x\|_p}{\|x\|_q}$.
+\end{aufg}
+
+\begin{aufg}
+(Lemma 6 from lecture notes)
+Let $A$ be a matrix with $(k,\varepsilon)$-RIP. Show that for any $S \subseteq [n]$ such that $|S| \le k$, and for any vector $x$, there is
+$$\|(I - A_S^T A_S)x_S\|_2 \le \varepsilon \|x_S\|_2.$$
+\end{aufg}
+\end{document}
