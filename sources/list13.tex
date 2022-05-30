@@ -1,0 +1,52 @@
+\documentclass[12pt]{uebung}
+
+
+\dozent{Przemysław Uznański}
+\vorlesung{Algorithms for Big Data}
+\semester{Spring Semester 2022}
+%\tutoren{Tutoren name}
+ 
+\usepackage{amsmath}
+\usepackage{mathtools}
+ 
+ 
+%\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb,wasysym}
+%\usepackage{tikz}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+ 
+%\usepackage{multirow}
+
+\usepackage[english]{babel}
+
+ \begin{document}
+
+ \startnummer{1}
+ 
+\kopf[0]{25/05/2020}{13}
+
+\newcommand{\bigo}{\mathcal{O}}
+\renewcommand{\aufgname}{Exercise}
+\begin{aufg}
+Show that $k$-spanner of a graph is in fact $k$-coreset for distance queries. That is, if $G'$ is $k$-spanner of $G$, then for any $H$ and any $u,v$ there is $d_{G \cup H} \le d_{G' \cup H}(u,v) \le k \cdot d_{G \cup H}(u,v)$.
+\end{aufg}
+
+\begin{aufg}
+Show that $k$-spanners have disjoint-merge property.
+\end{aufg}
+
+\begin{aufg}
+Show construction of $2t$-spanner of size $\bigo(n^{1+\frac{2}{t-1}} \log W)$ for weighted graphs with integer edge weights from $\{1,\ldots,W\}$.
+\end{aufg}
+
+\begin{aufg}
+Show a graph-certificate for 2-edge connectivity. ($G$ is 2-edge connected if any pair of vertices are connected by at least two edge-disjoint paths.)
+\end{aufg}
+
+\begin{aufg}[No sparse directed spanners]
+Show that in a directed case, for some digraphs it is impossible to construct better than $\Omega(n^2)$-size directed spanners.
+\end{aufg}
+
+\end{document}
